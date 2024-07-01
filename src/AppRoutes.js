@@ -1,12 +1,15 @@
-// import LoadingTapTa from "./based/LoadingTapTa";
-// import CommonModalWrapper from "./based/CommonModalWrapper";
-import Homepage from "./homepage/Homepage";
-
+import LoginPage from "../src/loginpage/loginpage";
+import NavBar from "./based/navbar";
+import HomePage from "./homepage/homepage";
 const AppRoutes = [
   {
     path: "/",
-    element: Homepage,
-    layout: "",
+    element: HomePage,
+  },
+  {
+    path: "/login",
+    element: LoginPage,
+    layout: "Empty",
   },
 ];
 
