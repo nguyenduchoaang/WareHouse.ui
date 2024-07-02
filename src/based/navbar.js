@@ -112,28 +112,41 @@ export default function NavBar() {
             </Link> */}
           </nav>
           <div className="flex items-center gap-4">
-            <>
-              <span>Xin chào, {name}</span>
-              <Button size="sm">
-                <Link to="/profile">Trang cá nhân</Link>
-              </Button>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="outline">Đăng xuất</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Bạn có muốn đăng xuất?</AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Hủy</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleLogout}>
-                      Xác nhận
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
+            {!isLoggedIn ? (
+              <>
+                <Button variant="outline" size="sm">
+                  <Link to="/login">Đăng nhập</Link>
+                </Button>
+                <Button size="sm">
+                  <Link to="/register">Đăng ký</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <span>Xin chào, {name}</span>
+                <Button size="sm">
+                  <Link to="/profile">Trang cá nhân</Link>
+                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline">Đăng xuất</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Bạn có muốn đăng xuất?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Hủy</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleLogout}>
+                        Xác nhận
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
           </div>
         </div>
       </div>
