@@ -21,24 +21,6 @@ const ConfigNavbar = [
     link: "/",
     icon: <Home></Home>,
   },
-  {
-    id: 2,
-    name: "Tạo đơn hàng",
-    link: "/about",
-    icon: <CreateOrder></CreateOrder>,
-  },
-  {
-    id: 3,
-    name: "Phân chia đơn hàng",
-    link: "/services",
-    icon: <ShareOrder></ShareOrder>,
-  },
-  {
-    id: 4,
-    name: "Tình trạng đơn hàng",
-    link: "/services",
-    icon: <StatusOrder></StatusOrder>,
-  },
 ];
 
 export default function NavBar() {
@@ -68,13 +50,12 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
+    <nav
+      style={{ marginLeft: "20%" }}
+      className="sticky top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90"
+    >
       <div className="w-full max-w-7xl  mx-auto px-4 ">
         <div className="flex justify-between h-14 items-center">
-          <Link to="/" className="flex items-center">
-            <Main className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
           <nav className="hidden md:flex gap-4">
             {ConfigNavbar.map((item) => (
               <Link
@@ -83,7 +64,7 @@ export default function NavBar() {
                 className="font-medium flex items-center text-sm transition-colors hover:underline"
               >
                 {item.icon}
-                <p className="ml-1.5 mr-3">{item.name}</p>
+                <p className="ml-1.5  mr-3">{item.name}</p>
               </Link>
             ))}
             {/* <Link
