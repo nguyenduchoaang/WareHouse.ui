@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import * as XLSX from "xlsx";
+
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -26,17 +28,6 @@ import {
   CardContent,
 } from "../components/ui/card";
 import { Label } from "../components/ui/label";
-import { Textarea } from "../components/ui/textarea";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "../components/ui/table";
-import { Badge } from "../components/ui/badge";
-import { Separator } from "../components/ui/separator";
 import {
   Select,
   SelectContent,
@@ -46,6 +37,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+import ExcelReader from "./readexel";
+import ExcelTable from "./readexel";
 
 const Selection = (props) => {
   return (
@@ -84,6 +77,26 @@ export default function OrderPage() {
       name: "Warehouse 3",
     },
   ]);
+  const [dataExcel, setDataExcel] = useState([]);
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const binaryStr = e.target.result;
+      const workbook = XLSX.read(binaryStr, { type: "binary" });
+
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+      setDataExcel(jsonData);
+    };
+
+    reader.readAsBinaryString(file);
+  };
+
   return (
     <div className="flex min-h-screen w-full">
       <div className="flex flex-col w-full">
@@ -154,11 +167,11 @@ export default function OrderPage() {
                       <Input
                         type="file"
                         id="file"
-                        placeholder="Enter customer email"
+                        onChange={handleFileUpload}
                       />
                     </div>
                   </div>
-
+                  <ExcelTable data={dataExcel}></ExcelTable>
                   <div className="flex justify-end">
                     <Button type="submit">Create Order</Button>
                   </div>
@@ -251,7 +264,7 @@ export default function OrderPage() {
                   </div>
                 </div>
               </CardContent>
-            </Card> */}
+              </Card> */}
           </div>
         </main>
       </div>
