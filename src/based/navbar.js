@@ -14,14 +14,7 @@ import {
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
 
-const ConfigNavbar = [
-  {
-    id: 1,
-    name: "Trang chủ",
-    link: "/",
-    icon: <Home></Home>,
-  },
-];
+const ConfigNavbar = [];
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,10 +43,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav
-      style={{ marginLeft: "20%" }}
-      className="sticky top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90"
-    >
+    <nav className="sticky top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
       <div className="w-full max-w-7xl  mx-auto px-4 ">
         <div className="flex justify-between h-14 items-center">
           <nav className="hidden md:flex gap-4">
@@ -67,30 +57,6 @@ export default function NavBar() {
                 <p className="ml-1.5  mr-3">{item.name}</p>
               </Link>
             ))}
-            {/* <Link
-              to="/"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-            >
-              Trang chủ
-            </Link>
-            <Link
-              to="/about"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-            >
-              Giới thiệu
-            </Link>
-            <Link
-              to="/services"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-            >
-              Dịch vụ
-            </Link>
-            <Link
-              to="/contact"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-            >
-              Liên hệ
-            </Link> */}
           </nav>
           <div className="flex items-center gap-4">
             {!isLoggedIn ? (

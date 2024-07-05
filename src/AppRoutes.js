@@ -2,6 +2,7 @@ import LoginPage from "../src/loginpage/loginpage";
 import NavBar from "./based/navbar";
 import HomePage from "./homepage/homepage";
 import RegisterComponent from "./loginpage/register";
+import OrderPage from "./orderpage/orderpage";
 const AppRoutes = [
   {
     path: "/",
@@ -15,6 +16,11 @@ const AppRoutes = [
   {
     path: "/register",
     element: RegisterComponent,
+    layout: "Empty",
+  },
+  {
+    path: "/order",
+    element: OrderPage,
     layout: "Empty",
   },
 ];

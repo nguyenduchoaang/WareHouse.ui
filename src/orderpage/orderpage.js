@@ -34,10 +34,54 @@ import {
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 
-export default function HomePage() {
+export default function OrderPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <header className="bg-background border-b shadow-sm sticky top-0 z-40 px-4 md:px-6 flex items-center h-16"></header> */}
+      <header className="bg-background border-b shadow-sm sticky top-0 z-40 px-4 md:px-6 flex items-center h-16">
+        <Package2Icon className="w-6 h-6" />
+        <span className="font-bold text-lg">Acme Warehouse</span>
+        <NavigationMenu className="hidden md:flex">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/">Dashboard</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/orders">Orders</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/shipments">
+                Shipments
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/integrations">
+                Integrations
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div className="ml-auto flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="rounded-full">
+                <img
+                  src="/placeholder.svg"
+                  width={32}
+                  height={32}
+                  alt="Avatar"
+                  className="rounded-full"
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>John Doe</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </header>
       <main className="flex-1 grid gap-8 p-4 md:p-6">
         <section>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">

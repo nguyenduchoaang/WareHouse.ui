@@ -62,9 +62,12 @@ export default function NavBarLeft() {
   };
 
   return (
-    <nav className="fixed  w-1/5 h-screen  top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
-      <div className="   mx-auto pl-3 ">
-        <Link to="/" className="flex items-center">
+    <nav
+      style={{ width: "240px" }}
+      className="fixed  h-screen  top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90"
+    >
+      <div className=" mx-auto pl-3 ">
+        <Link to="/" className="flex mt-5 items-center">
           <Main className="h-6 w-6" />
           <span className="sr-only">Acme Inc</span>
         </Link>
