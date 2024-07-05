@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "../components/ui/use-toast";
+import NavBar from "../based/navbar";
 
 export default function LoginComponent() {
   const [memberName, setMemberName] = useState("");
@@ -61,6 +62,13 @@ export default function LoginComponent() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br">
+    <div
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+        style={{
+          backgroundImage: `url('https://img.freepik.com/free-photo/modern-empty-room_23-2150528603.jpg?w=1380&t=st=1720209150~exp=1720209750~hmac=d0f7ba450c3b3272383e75e97bddb9b7afd97a285911012cf2bd77ee84cd128c')`,
+          zIndex: -1,
+        }}
+      />
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Chào mừng trở lại</h1>
@@ -107,11 +115,7 @@ export default function LoginComponent() {
             </CardFooter>
           </form>
         </Card>
-        <div className="flex justify-between text-sm">
-          <Link to="/register" className="underline underline-offset-2">
-            Chưa có tài khoản? đăng ký ngay
-          </Link>
-        </div>
+    
       </div>
     </div>
   );
