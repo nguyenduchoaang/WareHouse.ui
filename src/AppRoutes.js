@@ -21,7 +21,6 @@ const AppRoutes = [
   {
     path: "/order",
     element: OrderPage,
-    layout: "Empty",
   },
 ];
 

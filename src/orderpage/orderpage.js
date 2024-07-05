@@ -1,14 +1,17 @@
 /**
  * v0 by Vercel.
- * @see https://v0.dev/t/pxDI04ZdgNo
+ * @see https://v0.dev/t/kQotS4AwarW
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "../components/ui/navigation-menu";
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "../components/ui/breadcrumb";
+import { Input } from "../components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -22,8 +25,11 @@ import {
   Card,
   CardHeader,
   CardTitle,
+  CardDescription,
   CardContent,
 } from "../components/ui/card";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
 import {
   Table,
   TableHeader,
@@ -33,445 +39,363 @@ import {
   TableCell,
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
+import { Separator } from "../components/ui/separator";
 
 export default function OrderPage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="bg-background border-b shadow-sm sticky top-0 z-40 px-4 md:px-6 flex items-center h-16">
-        <Package2Icon className="w-6 h-6" />
-        <span className="font-bold text-lg">Acme Warehouse</span>
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/">Dashboard</NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/orders">Orders</NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/shipments">
-                Shipments
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/integrations">
-                Integrations
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-        <div className="ml-auto flex items-center gap-2">
+    <div className="flex min-h-screen w-full">
+      <div className="flex flex-col w-full">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <Breadcrumb className="hidden md:flex">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild></BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Orders</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          {/* <div className="relative ml-auto flex-1 md:grow-0">
+            <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search orders..."
+              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+            />
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="rounded-full">
+              <Button
+                variant="outline"
+                size="icon"
+                className="overflow-hidden rounded-full"
+              >
                 <img
                   src="/placeholder.svg"
-                  width={32}
-                  height={32}
+                  width={36}
+                  height={36}
                   alt="Avatar"
-                  className="rounded-full"
+                  className="overflow-hidden rounded-full"
                 />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>John Doe</DropdownMenuLabel>
+              <DropdownMenuLabel>Admin</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </header>
-      <main className="flex-1 grid gap-8 p-4 md:p-6">
-        <section>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle>Total Orders</CardTitle>
-                <PackageIcon className="w-6 h-6 text-muted-foreground" />
+          </DropdownMenu> */}
+        </header>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+            <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
+              <CardHeader className="pb-3">
+                <CardTitle>Create New Order</CardTitle>
+                <CardDescription className="max-w-lg text-balance leading-relaxed">
+                  Fill out the form to create a new order for your customers.
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-4xl font-bold">1,234</div>
+                <form className="grid gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="customer-name">Customer Name</Label>
+                      <Input
+                        id="customer-name"
+                        placeholder="Enter customer name"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="customer-email">Customer Email</Label>
+                      <Input
+                        id="customer-email"
+                        placeholder="Enter customer email"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="item-name">Item Name</Label>
+                      <Input id="item-name" placeholder="Enter item name" />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="item-quantity">Quantity</Label>
+                      <Input
+                        id="item-quantity"
+                        type="number"
+                        placeholder="Enter quantity"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="shipping-address">Shipping Address</Label>
+                      <Textarea
+                        id="shipping-address"
+                        placeholder="Enter shipping address"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="notes">Notes</Label>
+                      <Textarea
+                        id="notes"
+                        placeholder="Enter any additional notes"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <Button type="submit">Create Order</Button>
+                  </div>
+                </form>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle>Pending Shipments</CardTitle>
-                <TruckIcon className="w-6 h-6 text-muted-foreground" />
+            <Card x-chunk="dashboard-05-chunk-1">
+              <CardHeader className="pb-3">
+                <CardTitle>Pending Orders</CardTitle>
+                <CardDescription className="max-w-lg text-balance leading-relaxed">
+                  View and manage all pending orders that need to be shipped.
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-4xl font-bold">87</div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order ID</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Items</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <div className="font-medium">ORD-123456</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium">John Doe</div>
+                        <div className="text-sm text-muted-foreground">
+                          john@example.com
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>2 x Widgets</div>
+                        <div>1 x Gadgets</div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="text-xs" variant="secondary">
+                          Pending
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="outline">
+                          <div className="h-4 w-4 mr-2" />
+                          Ship Order
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <div className="font-medium">ORD-789012</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium">Jane Smith</div>
+                        <div className="text-sm text-muted-foreground">
+                          jane@example.com
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>1 x Widgets</div>
+                        <div>3 x Gizmos</div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="text-xs" variant="secondary">
+                          Pending
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="outline">
+                          <div className="h-4 w-4 mr-2" />
+                          Ship Order
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle>Completed Shipments</CardTitle>
-                <CircleCheckIcon className="w-6 h-6 text-muted-foreground" />
+            <Card x-chunk="dashboard-05-chunk-2">
+              <CardHeader className="pb-3">
+                <CardTitle>Shared Orders</CardTitle>
+                <CardDescription className="max-w-lg text-balance leading-relaxed">
+                  View and manage orders that have been shared with the
+                  warehouse team.
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-4xl font-bold">1,102</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle>Integrations</CardTitle>
-                <LinkIcon className="w-6 h-6 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold">5</div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order ID</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Items</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <div className="font-medium">ORD-345678</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium">Michael Johnson</div>
+                        <div className="text-sm text-muted-foreground">
+                          michael@example.com
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>4 x Widgets</div>
+                        <div>2 x Gadgets</div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="text-xs" variant="secondary">
+                          Shared
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="outline">
+                          <div className="h-4 w-4 mr-2" />
+                          Share with Shipper
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <div className="font-medium">ORD-901234</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium">Emily Davis</div>
+                        <div className="text-sm text-muted-foreground">
+                          emily@example.com
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div>1 x Widgets</div>
+                        <div>5 x Gizmos</div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="text-xs" variant="secondary">
+                          Shared
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="outline">
+                          <div className="h-4 w-4 mr-2" />
+                          Share with Shipper
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </div>
-        </section>
-        <section>
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Recent Orders</h2>
-            <Button size="sm" variant="outline">
-              <PlusIcon className="w-4 h-4 mr-2" />
-              Create Order
-            </Button>
+          <div>
+            {/* <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
+              <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                  <CardTitle className="group flex items-center gap-2 text-lg">
+                    Order ORD-123456
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+                    >
+                      <div className="h-3 w-3" />
+                      <span className="sr-only">Copy Order ID</span>
+                    </Button>
+                  </CardTitle>
+                  <CardDescription>Customer: John Doe</CardDescription>
+                </div>
+                <div className="ml-auto flex items-center gap-1">
+                  <Button size="sm" variant="outline" className="h-8 gap-1">
+                    <div className="h-3.5 w-3.5" />
+                    <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
+                      Ship Order
+                    </span>
+                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="outline" className="h-8 w-8">
+                        <div className="h-3.5 w-3.5" />
+                        <span className="sr-only">More</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Share with Warehouse</DropdownMenuItem>
+                      <DropdownMenuItem>Share with Shipper</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Edit Order</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </CardHeader>
+              <CardContent className="p-6 text-sm">
+                <div className="grid gap-3">
+                  <div className="font-semibold">Order Details</div>
+                  <ul className="grid gap-3">
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">
+                        Widgets x <span>2</span>
+                      </span>
+                      <span>$100.00</span>
+                    </li>
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">
+                        Gadgets x <span>1</span>
+                      </span>
+                      <span>$50.00</span>
+                    </li>
+                  </ul>
+                  <Separator className="my-2" />
+                  <ul className="grid gap-3">
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span>$150.00</span>
+                    </li>
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Shipping</span>
+                      <span>$10.00</span>
+                    </li>
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Tax</span>
+                      <span>$15.00</span>
+                    </li>
+                    <li className="flex items-center justify-between font-semibold">
+                      <span className="text-muted-foreground">Total</span>
+                      <span>$175.00</span>
+                    </li>
+                  </ul>
+                </div>
+                <Separator className="my-4" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-3">
+                    <div className="font-semibold">Shipping Information</div>
+                    <address className="grid gap-0.5 " />
+                  </div>
+                </div>
+              </CardContent>
+            </Card> */}
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Shipping</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>ORD-123</TableCell>
-                <TableCell>John Doe</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Pending</Badge>
-                </TableCell>
-                <TableCell>
-                  <Button size="sm" variant="outline">
-                    <TruckIcon className="w-4 h-4 mr-2" />
-                    Ship
-                  </Button>
-                </TableCell>
-                <TableCell>$249.99</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Warehouse
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Shipper
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FilePenIcon className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>ORD-456</TableCell>
-                <TableCell>Jane Smith</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Pending</Badge>
-                </TableCell>
-                <TableCell>
-                  <Button size="sm" variant="outline">
-                    <TruckIcon className="w-4 h-4 mr-2" />
-                    Ship
-                  </Button>
-                </TableCell>
-                <TableCell>$189.99</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Warehouse
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Shipper
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FilePenIcon className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>ORD-789</TableCell>
-                <TableCell>Michael Johnson</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Pending</Badge>
-                </TableCell>
-                <TableCell>
-                  <Button size="sm" variant="outline">
-                    <TruckIcon className="w-4 h-4 mr-2" />
-                    Ship
-                  </Button>
-                </TableCell>
-                <TableCell>$299.99</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Warehouse
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Shipper
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FilePenIcon className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </section>
-        <section>
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Shipments</h2>
-            <Button size="sm" variant="outline">
-              <TruckIcon className="w-4 h-4 mr-2" />
-              Create Shipment
-            </Button>
-          </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Tracking Number</TableHead>
-                <TableHead>Order</TableHead>
-                <TableHead>Carrier</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Estimated Delivery</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>1Z999AA1234567890</TableCell>
-                <TableCell>ORD-123</TableCell>
-                <TableCell>UPS</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">In Transit</Badge>
-                </TableCell>
-                <TableCell>June 15, 2023</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Warehouse
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Customer
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FilePenIcon className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>1Z999BB1234567890</TableCell>
-                <TableCell>ORD-456</TableCell>
-                <TableCell>FedEx</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Pending</Badge>
-                </TableCell>
-                <TableCell>June 18, 2023</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Warehouse
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <ShareIcon className="w-4 h-4 mr-2" />
-                        Share with Customer
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FilePenIcon className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>1Z999CC1234567890</TableCell>
-                <TableCell>ORD-789</TableCell>
-                <TableCell>USPS</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Delivered</Badge>
-                </TableCell>
-                <TableCell>June 12, 2023</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <MoveHorizontalIcon className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenu />
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </section>
-      </main>
+        </main>
+      </div>
     </div>
-  );
-}
-
-function CircleCheckIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
-
-function FilePenIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z" />
-    </svg>
-  );
-}
-
-function LinkIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    </svg>
-  );
-}
-
-function MoveHorizontalIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="18 8 22 12 18 16" />
-      <polyline points="6 8 2 12 6 16" />
-      <line x1="2" x2="22" y1="12" y2="12" />
-    </svg>
   );
 }
 
@@ -492,113 +416,6 @@ function Package2Icon(props) {
       <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
       <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
       <path d="M12 3v6" />
-    </svg>
-  );
-}
-
-function PackageIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m7.5 4.27 9 5.15" />
-      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-      <path d="m3.3 7 8.7 5 8.7-5" />
-      <path d="M12 22V12" />
-    </svg>
-  );
-}
-
-function PlusIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  );
-}
-
-function ShareIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-      <polyline points="16 6 12 2 8 6" />
-      <line x1="12" x2="12" y1="2" y2="15" />
-    </svg>
-  );
-}
-
-function TrashIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18" />
-      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-    </svg>
-  );
-}
-
-function TruckIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
-      <path d="M15 18H9" />
-      <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
-      <circle cx="17" cy="18" r="2" />
-      <circle cx="7" cy="18" r="2" />
     </svg>
   );
 }
