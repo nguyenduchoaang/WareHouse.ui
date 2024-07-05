@@ -3,30 +3,6 @@ import { Button } from "../components/ui/button";
 import { toast } from "../components/ui/use-toast";
 import { Main, CreateOrder, StatusOrder, ShareOrder, Home } from "./configsvg";
 import { useEffect, useState } from "react";
-// import {
-//   DropdownMenu,
-//   DropdownMenuTrigger,
-//   DropdownMenuContent,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuItem,
-// } from "@/components/ui/dropdown-menu";
-// import {
-//   Breadcrumb,
-//   BreadcrumbList,
-//   BreadcrumbItem,
-//   BreadcrumbLink,
-//   BreadcrumbSeparator,
-//   BreadcrumbPage,
-// } from "@/components/ui/breadcrumb";
-// import { Input } from "@/components/ui/input";
-// import {
-//   Card,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-//   CardContent,
-// } from "@/components/ui/card";
 
 const ConfigNavbar = [
   {
@@ -35,12 +11,7 @@ const ConfigNavbar = [
     name: "Create Order",
     icon: <CirclePlusIcon />,
   },
-  {
-    id: 2,
-    link: "/order",
-    name: "Order Status",
-    icon: <TruckIcon />,
-  },
+
   {
     id: 3,
     link: "/share",

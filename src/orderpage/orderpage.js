@@ -1,8 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/kQotS4AwarW
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+import * as React from "react";
+import { useState, useEffect } from "react";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -40,8 +37,53 @@ import {
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import { Separator } from "../components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+
+const Selection = (props) => {
+  return (
+    <Select>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select a Wave House" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Ho Chi Minh City</SelectLabel>
+          {props &&
+            props.listWareHouse &&
+            props.listWareHouse.map((item) => (
+              <SelectItem key={item.id} value={item.name}>
+                {item.name}
+              </SelectItem>
+            ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
 
 export default function OrderPage() {
+  const [listWarehouse, setListWarehouse] = useState([
+    {
+      id: 1,
+      name: "Warehouse 1",
+    },
+    {
+      id: 2,
+      name: "Warehouse 2",
+    },
+    {
+      id: 3,
+      name: "Warehouse 3",
+    },
+  ]);
   return (
     <div className="flex min-h-screen w-full">
       <div className="flex flex-col w-full">
@@ -104,205 +146,23 @@ export default function OrderPage() {
                 <form className="grid gap-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="customer-name">Customer Name</Label>
-                      <Input
-                        id="customer-name"
-                        placeholder="Enter customer name"
-                      />
+                      <Label htmlFor="customer-name">Pick Ware House</Label>
+                      <Selection listWareHouse={listWarehouse} />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="customer-email">Customer Email</Label>
+                      <Label htmlFor="file">Order File</Label>
                       <Input
-                        id="customer-email"
+                        type="file"
+                        id="file"
                         placeholder="Enter customer email"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="item-name">Item Name</Label>
-                      <Input id="item-name" placeholder="Enter item name" />
-                    </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="item-quantity">Quantity</Label>
-                      <Input
-                        id="item-quantity"
-                        type="number"
-                        placeholder="Enter quantity"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="shipping-address">Shipping Address</Label>
-                      <Textarea
-                        id="shipping-address"
-                        placeholder="Enter shipping address"
-                      />
-                    </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="notes">Notes</Label>
-                      <Textarea
-                        id="notes"
-                        placeholder="Enter any additional notes"
-                      />
-                    </div>
-                  </div>
+
                   <div className="flex justify-end">
                     <Button type="submit">Create Order</Button>
                   </div>
                 </form>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-05-chunk-1">
-              <CardHeader className="pb-3">
-                <CardTitle>Pending Orders</CardTitle>
-                <CardDescription className="max-w-lg text-balance leading-relaxed">
-                  View and manage all pending orders that need to be shipped.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Order ID</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Items</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">ORD-123456</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">John Doe</div>
-                        <div className="text-sm text-muted-foreground">
-                          john@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>2 x Widgets</div>
-                        <div>1 x Gadgets</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="secondary">
-                          Pending
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button size="sm" variant="outline">
-                          <div className="h-4 w-4 mr-2" />
-                          Ship Order
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">ORD-789012</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">Jane Smith</div>
-                        <div className="text-sm text-muted-foreground">
-                          jane@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>1 x Widgets</div>
-                        <div>3 x Gizmos</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="secondary">
-                          Pending
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button size="sm" variant="outline">
-                          <div className="h-4 w-4 mr-2" />
-                          Ship Order
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-05-chunk-2">
-              <CardHeader className="pb-3">
-                <CardTitle>Shared Orders</CardTitle>
-                <CardDescription className="max-w-lg text-balance leading-relaxed">
-                  View and manage orders that have been shared with the
-                  warehouse team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Order ID</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Items</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">ORD-345678</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">Michael Johnson</div>
-                        <div className="text-sm text-muted-foreground">
-                          michael@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>4 x Widgets</div>
-                        <div>2 x Gadgets</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="secondary">
-                          Shared
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button size="sm" variant="outline">
-                          <div className="h-4 w-4 mr-2" />
-                          Share with Shipper
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium">ORD-901234</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">Emily Davis</div>
-                        <div className="text-sm text-muted-foreground">
-                          emily@example.com
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>1 x Widgets</div>
-                        <div>5 x Gizmos</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="text-xs" variant="secondary">
-                          Shared
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button size="sm" variant="outline">
-                          <div className="h-4 w-4 mr-2" />
-                          Share with Shipper
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
               </CardContent>
             </Card>
           </div>
