@@ -18,6 +18,12 @@ const ConfigNavbar = [
     name: "Share Order",
     icon: <ShareOrder />,
   },
+  {
+    id: 3,
+    link: "/analysis",
+    name: "Analysis",
+    icon: <PackageIcon />,
+  },
   // {
   //   id: 4,
   //   link: "/warehouse",

@@ -76,7 +76,7 @@ const DataTable = [
   },
 ];
 
-const _renderHeader = () => {
+export const _renderHeader = () => {
   return (
     <section>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">

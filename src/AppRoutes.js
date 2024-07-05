@@ -3,6 +3,7 @@ import NavBar from "./based/navbar";
 import HomePage from "./homepage/homepage";
 import RegisterComponent from "./loginpage/register";
 import OrderPage from "./orderpage/orderpage";
+import Analysis from "./analysis/analysis";
 const AppRoutes = [
   {
     path: "/",
@@ -21,6 +22,10 @@ const AppRoutes = [
   {
     path: "/order",
     element: OrderPage,
+  },
+  {
+    path: "/analysis",
+    element: Analysis,
   },
 ];
 
