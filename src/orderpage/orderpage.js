@@ -37,7 +37,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import ExcelReader from "./readexel";
 import ExcelTable from "./readexel";
 
 const Selection = (props) => {
