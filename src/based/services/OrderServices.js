@@ -1,6 +1,6 @@
 import BaseServices from "./BaseServices";
-
-const key = "orders";
+import CONSTANTS from "../Constants";
+const key = CONSTANTS.ORDER;
 
 const OrderServices = {
   CreateOrder: async (model) => {
@@ -8,6 +8,9 @@ const OrderServices = {
   },
   GetOrders: async (paging) => {
     return await BaseServices.Get(`/${key}/GetOrders`, paging);
+  },
+  GetOrdersByBatchMode: async (paging) => {
+    return await BaseServices.Get(`/${key}/GetOrdersByBatchMode`, paging);
   },
 };
 

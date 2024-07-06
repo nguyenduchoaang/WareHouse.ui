@@ -5,6 +5,7 @@ import RegisterComponent from "./loginpage/register";
 import OrderPage from "./orderpage/orderpage";
 import Analysis from "./analysis/analysis";
 import OrderManager from "./manage/ordermanage";
+import ShipManager from "./shipmanager/shipmanager";
 const AppRoutes = [
   {
     path: "/",
@@ -31,6 +32,10 @@ const AppRoutes = [
   {
     path: "/manage",
     element: OrderManager,
+  },
+  {
+    path: "/ship",
+    element: ShipManager,
   },
 ];
 

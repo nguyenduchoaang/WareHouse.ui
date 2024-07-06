@@ -152,7 +152,7 @@ export default function OrderPage() {
               <CardHeader className="pb-3">
                 <CardTitle>Create New Order</CardTitle>
                 <CardDescription className="max-w-lg text-balance leading-relaxed">
-                  Fill out the form to create a new order for your customers.
+                  Fill out the form to create a new order for a ware house.
                 </CardDescription>
               </CardHeader>
               <CardContent>

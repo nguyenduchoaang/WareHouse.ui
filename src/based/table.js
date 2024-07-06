@@ -19,7 +19,7 @@ const TableCustom = (props) => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = props.body.slice(startIndex, endIndex);
+  const currentItems = props.body && props.body.slice(startIndex, endIndex);
 
   return (
     <>
@@ -47,7 +47,7 @@ const TableCustom = (props) => {
         </TableBody>
       </Table>
       <PaginationBase
-        totalPages={Math.ceil(props.body.length / itemsPerPage)}
+        totalPages={Math.ceil(props.body && props.body.length / itemsPerPage)}
         currentPage={currentPage}
         onChangePage={handlePageChange}
       />

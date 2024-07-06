@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { toast } from "../components/ui/use-toast";
 import { Main, CreateOrder, StatusOrder, ShareOrder, Home } from "./configsvg";
 import { useEffect, useState } from "react";
+import { ShipIcon } from "lucide-react";
 
 const ConfigNavbar = [
   {
@@ -19,10 +20,17 @@ const ConfigNavbar = [
   },
   {
     id: 3,
+    link: "/ship",
+    name: "Ship Management",
+    icon: <PackageIcon />,
+  },
+  {
+    id: 3,
     link: "/analysis",
     name: "Analysis",
     icon: <LineChartIcon />,
   },
+
   // {
   //   id: 4,
   //   link: "/warehouse",

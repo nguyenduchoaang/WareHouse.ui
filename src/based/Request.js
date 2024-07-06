@@ -1,11 +1,8 @@
 import axios from "axios";
 import cookie from "react-cookies";
 import Common from "./Common";
-const APIUrl = () => {
-  "https://localhost:7280/api/v1";
-};
 
-const apiUrl = APIUrl();
+const apiUrl = "https://localhost:7280/api/v1";
 var token = cookie.load("token");
 
 const instance = axios.create({ baseURL: apiUrl });
