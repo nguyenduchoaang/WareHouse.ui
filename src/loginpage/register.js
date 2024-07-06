@@ -11,7 +11,7 @@ export default function RegisterComponent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("shipper");
   const [location, setLocation] = useState("");
   const [dob, setDob] = useState("");
 
@@ -113,12 +113,12 @@ export default function RegisterComponent() {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label htmlFor="full-name">Vai trò</Label>
                   <select
                     onChange={(e) => setRole(e.target.value)}
                     value={role}
                     className="w-[180px]"
                   >
-                    <option value="">Chọn vai trò</option>
                     <option value="warehouse">Ware House</option>
                     <option value="shipper">Shipper</option>
                   </select>
