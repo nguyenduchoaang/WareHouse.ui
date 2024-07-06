@@ -81,10 +81,15 @@ var Request = {
     return result;
   },
 
-  Delete: function (url) {
+  Delete: function (url, params) {
     return new Promise((resolve, reject) => {
       instance
-        .delete(url)
+        .delete(url, params, {
+          cancelToken: new CancelToken(function executor(c) {
+            // An executor function receives a cancel function as a parameter
+            cancel = c;
+          }),
+        })
         .then((res) => {
           resolve(res.data);
         })

@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { toast } from "../components/ui/use-toast";
-import { Main, CreateOrder, StatusOrder, ShareOrder, Home } from "./configsvg";
 import { useEffect, useState } from "react";
 import {
   AlertDialog,
@@ -13,15 +12,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
-
-const ConfigNavbar = [];
-
+import Common from "./Common";
+import AccountServices from "./services/AccountServices";
+import axios from "axios";
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken = Common.CheckToken();
     const userName = sessionStorage.getItem("name");
     if (accessToken) {
       setIsLoggedIn(true);
@@ -32,32 +31,19 @@ export default function NavBar() {
     }
   }, [isLoggedIn]);
 
-  const handleLogout = () => {
-    sessionStorage.clear();
+  const handleLogout = async () => {
+    const refreshToken = Common.GetRefreshToken();
+    console.log(refreshToken);
+    Common.RemoveToken();
     setIsLoggedIn(false);
-    navigate("/");
-    toast({
-      title: "Thành công✅",
-      description: "Bạn đã đăng xuất.",
-    });
+    navigate("/login");
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
       <div className="w-full max-w-7xl  mx-auto px-4 ">
         <div className="flex justify-between h-14 items-center">
-          <nav className="hidden md:flex gap-4">
-            {ConfigNavbar.map((item) => (
-              <Link
-                key={item.id}
-                to={item.link}
-                className="font-medium flex items-center text-sm transition-colors hover:underline"
-              >
-                {item.icon}
-                <p className="ml-1.5  mr-3">{item.name}</p>
-              </Link>
-            ))}
-          </nav>
+          <nav className="hidden md:flex gap-4"></nav>
           <div className="flex items-center gap-4">
             {!isLoggedIn ? (
               <>
@@ -71,9 +57,9 @@ export default function NavBar() {
             ) : (
               <>
                 <span>Xin chào, {name}</span>
-                <Button size="sm">
+                {/* <Button size="sm">
                   <Link to="/profile">Trang cá nhân</Link>
-                </Button>
+                </Button> */}
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="outline">Đăng xuất</Button>

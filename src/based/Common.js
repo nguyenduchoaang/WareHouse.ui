@@ -1,9 +1,20 @@
+import { Check } from "lucide-react";
 import cookie from "react-cookies";
 
 var Common = {
+  CheckToken: () => {
+    var token = cookie.load("token");
+    if (token) {
+      return true;
+    }
+    return false;
+  },
   RemoveToken: () => {
     cookie.remove("token");
-    sessionStorage.removeItem("tfuToken");
+    cookie.remove("refreshToken");
+  },
+  GetRefreshToken: () => {
+    return cookie.load("refreshToken");
   },
 };
 
