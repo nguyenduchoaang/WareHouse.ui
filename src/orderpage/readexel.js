@@ -11,7 +11,6 @@ const ExcelTable = ({ data }) => {
         : [],
     [data]
   );
-  console.log(data);
 
   return (
     <TableCustom

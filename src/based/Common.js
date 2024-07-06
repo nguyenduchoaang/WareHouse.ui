@@ -16,6 +16,10 @@ var Common = {
   GetRefreshToken: () => {
     return cookie.load("refreshToken");
   },
+  PagingModel: {
+    page: 1,
+    size: 10,
+  },
 };
 
 export default Common;

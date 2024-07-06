@@ -11,14 +11,6 @@ import {
   BreadcrumbPage,
 } from "../components/ui/breadcrumb";
 import { Input } from "../components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "../components/ui/dropdown-menu";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -38,10 +30,13 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import ExcelTable from "./readexel";
+import Common from "../based/Common";
+import WareHouseServices from "../based/services/WareHouseServices";
+import axios from "axios";
 
 const Selection = (props) => {
   return (
-    <Select>
+    <Select onValueChange={(value) => props.onChanged(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a Wave House" />
       </SelectTrigger>
@@ -51,7 +46,7 @@ const Selection = (props) => {
           {props &&
             props.listWareHouse &&
             props.listWareHouse.map((item) => (
-              <SelectItem key={item.id} value={item.name}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.name}
               </SelectItem>
             ))}
@@ -62,24 +57,41 @@ const Selection = (props) => {
 };
 
 export default function OrderPage() {
-  const [listWarehouse, setListWarehouse] = useState([
-    {
-      id: 1,
-      name: "Warehouse 1",
-    },
-    {
-      id: 2,
-      name: "Warehouse 2",
-    },
-    {
-      id: 3,
-      name: "Warehouse 3",
-    },
-  ]);
+  const [listWarehouse, setListWarehouse] = useState([]);
+  const [paging, setPaging] = useState(Common.PagingModel);
   const [dataExcel, setDataExcel] = useState([]);
+  const [selectedWarehouseId, setSelectedWarehouseId] = useState("");
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    handleGetWareHouse(paging);
+  }, []);
+
+  const handleFileUploadAPI = async () => {
+    console.log(123);
+    const formData = new FormData();
+    formData.append("WarehouseId", selectedWarehouseId);
+    formData.append("Orderfile", file);
+
+    try {
+      const response = await axios.post(
+        "https://localhost:7280/api/v1/orders/CreateOrder",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Order created successfully:", response.data);
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+    setFile(file);
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -92,8 +104,26 @@ export default function OrderPage() {
 
       setDataExcel(jsonData);
     };
-
     reader.readAsBinaryString(file);
+  };
+
+  const handleGetWareHouse = async (paging) => {
+    console.log(paging);
+    const [err, data] = await WareHouseServices.GetWareHouses(paging);
+    if (!err) {
+      setPaging({
+        ...paging,
+        total: data.total,
+        totalPage: data.totalPage,
+      });
+      const handleData = data.items.map((item) => {
+        return {
+          ...item,
+          name: item.fullName,
+        };
+      });
+      setListWarehouse(handleData);
+    }
   };
 
   return (
@@ -160,7 +190,10 @@ export default function OrderPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
                       <Label htmlFor="customer-name">Pick Ware House</Label>
-                      <Selection listWareHouse={listWarehouse} />
+                      <Selection
+                        listWareHouse={listWarehouse}
+                        onChanged={(value) => setSelectedWarehouseId(value)}
+                      />
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="file">Order File</Label>
@@ -172,99 +205,11 @@ export default function OrderPage() {
                     </div>
                   </div>
                   <ExcelTable data={dataExcel}></ExcelTable>
-                  <div className="flex justify-end">
-                    <Button type="submit">Create Order</Button>
-                  </div>
+                  <div className="flex justify-end"></div>
                 </form>
+                <Button onClick={handleFileUploadAPI}>Create Order</Button>
               </CardContent>
             </Card>
-          </div>
-          <div>
-            {/* <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
-              <CardHeader className="flex flex-row items-start bg-muted/50">
-                <div className="grid gap-0.5">
-                  <CardTitle className="group flex items-center gap-2 text-lg">
-                    Order ORD-123456
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      <div className="h-3 w-3" />
-                      <span className="sr-only">Copy Order ID</span>
-                    </Button>
-                  </CardTitle>
-                  <CardDescription>Customer: John Doe</CardDescription>
-                </div>
-                <div className="ml-auto flex items-center gap-1">
-                  <Button size="sm" variant="outline" className="h-8 gap-1">
-                    <div className="h-3.5 w-3.5" />
-                    <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                      Ship Order
-                    </span>
-                  </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline" className="h-8 w-8">
-                        <div className="h-3.5 w-3.5" />
-                        <span className="sr-only">More</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Share with Warehouse</DropdownMenuItem>
-                      <DropdownMenuItem>Share with Shipper</DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>Edit Order</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </CardHeader>
-              <CardContent className="p-6 text-sm">
-                <div className="grid gap-3">
-                  <div className="font-semibold">Order Details</div>
-                  <ul className="grid gap-3">
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Widgets x <span>2</span>
-                      </span>
-                      <span>$100.00</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Gadgets x <span>1</span>
-                      </span>
-                      <span>$50.00</span>
-                    </li>
-                  </ul>
-                  <Separator className="my-2" />
-                  <ul className="grid gap-3">
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Subtotal</span>
-                      <span>$150.00</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Shipping</span>
-                      <span>$10.00</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Tax</span>
-                      <span>$15.00</span>
-                    </li>
-                    <li className="flex items-center justify-between font-semibold">
-                      <span className="text-muted-foreground">Total</span>
-                      <span>$175.00</span>
-                    </li>
-                  </ul>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-3">
-                    <div className="font-semibold">Shipping Information</div>
-                    <address className="grid gap-0.5 " />
-                  </div>
-                </div>
-              </CardContent>
-              </Card> */}
           </div>
         </main>
       </div>
