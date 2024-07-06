@@ -11,53 +11,65 @@ export default function RegisterComponent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [yob, setYob] = useState("");
-  const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // if (password !== confirmPassword) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Mật khẩu không khớp",
-    //   });
-    //   return;
-    // }
-    // try {
-    //   const response = await CreateMember(memberName, password, name, yob);
-    //   if (response.status === 200) {
-    //     toast({
-    //       title: "Đăng ký thành công vui lòng đăng nhập",
-    //     });
-    //     navigate("/login");
-    //   }
-    // } catch (error) {
-    //   if (error.response.status === 500) {
-    //     toast({
-    //       variant: "destructive",
-    //       title: "Tài khoản này đã được đăng ký",
-    //     });
-    //   } else
-    //     toast({
-    //       variant: "destructive",
-    //       title: "Thất bại",
-    //       description: error.response.data,
-    //     });
-    // }
+  const [role, setRole] = useState("");
+  const [location, setLocation] = useState("");
+  const [dob, setDob] = useState("");
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (password!== confirmPassword) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Mật khẩu không khớp",
+  //     });
+  //     return;
+  //   }
+  //   try {
+  //     const response = await CreateMember(memberName, password, name, yob, role, location, dob);
+  //     if (response.status === 200) {
+  //       toast({
+  //         title: "Đăng ký thành công vui lòng đăng nhập",
+  //       });
+  //       navigate("/login");
+  //     }
+  //   } catch (error) {
+  //     if (error.response.status === 500) {
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Tài khoản này đã được đăng ký",
+  //       });
+  //     } else
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Thất bại",
+  //         description: error.response.data,
+  //       });
+  //   }
+  // };
+  const formData = {
+    memberName,
+    password,
+    name,
+    role,
+    location,
+    dob,
   };
+
+  console.log(formData);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br">
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Đăng ký</h1>
+          <h1 className="text-3xl font-bold">Tạo tài khoản</h1>
           <p
             className="text-muted-foreground font-semibold"
             style={{ color: "#1A2130" }}
           >
-            Nhập thông tin của bạn để tạo tài khoản
+            Nhập thông tin để tạo tài khoản
           </p>
         </div>
         <Card>
-          <form onSubmit={handleSubmit}>
+          <form>
             <CardContent className="space-y-4 mt-4">
               <div className="space-y-2">
                 <Label htmlFor="username">Tên thành viên</Label>
@@ -101,18 +113,41 @@ export default function RegisterComponent() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="birth-year">Năm sinh</Label>
-                  <Input
-                    id="birth-year"
-                    type="number"
-                    min="1900"
-                    max="2006"
-                    value={yob}
-                    required
-                    onChange={(e) => setYob(e.target.value)}
-                  />
+                  <select
+                    onChange={(e) => setRole(e.target.value)}
+                    value={role}
+                    className="w-[180px]"
+                  >
+                    <option value="">Chọn vai trò</option>
+                    <option value="warehouse">Ware House</option>
+                    <option value="shipper">Shipper</option>
+                  </select>
                 </div>
               </div>
+              {role === "warehouse" && (
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    placeholder="Location"
+                    value={location}
+                    required
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </div>
+              )}
+              {role === "shipper" && (
+                <div className="space-y-2">
+                  <Label htmlFor="dob">Ngày sinh</Label>
+                  <Input
+                    id="dob"
+                    type="date"
+                    value={dob}
+                    required
+                    onChange={(e) => setDob(e.target.value)}
+                  />
+                </div>
+              )}
               <div className="flex gap-4">
                 <Link
                   to="/login"
