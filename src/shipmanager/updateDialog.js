@@ -10,19 +10,25 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Button } from "../components/ui/button";
-
-const UpdateDialog = ({ isOpen, onClose, onSubmit }) => {
+import { STATUS } from "../based/Constants";
+import { set } from "date-fns";
+const UpdateDialog = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [formUpdate, setFormUpdate] = useState({
+    image: null,
+    status: "SUCCESS",
+  });
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    setFormUpdate({ ...formUpdate, image: file });
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
     }
   };
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={props.isOpen} onOpenChange={props.onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <div className="flex flex-col items-center justify-center gap-4 py-8">
           <div className="grid gap-4">
@@ -30,25 +36,32 @@ const UpdateDialog = ({ isOpen, onClose, onSubmit }) => {
               <Label htmlFor="image">Image</Label>
               <Input id="image" type="file" onChange={handleImageChange} />{" "}
               {selectedImage && (
-                <img src={selectedImage} alt="Selected" className="mt-4" />
+                <img
+                  style={{ maxWidth: "400px", maxHeight: "400px" }}
+                  src={selectedImage}
+                  alt="Selected"
+                  className="mt-4"
+                />
               )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="status">Status</Label>
               <Select
                 onValueChange={(value) => {
-                  setSelectedStatus(value);
+                  setFormUpdate({ ...formUpdate, status: value });
                 }}
                 id="status"
-                defaultValue="pending"
+                defaultValue={STATUS[0].label}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="delivered">Delivered</SelectItem>
-                  <SelectItem value="delayed">Delayed</SelectItem>
+                  {STATUS.map((item, index) => (
+                    <SelectItem key={index} value={item.label}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -56,11 +69,11 @@ const UpdateDialog = ({ isOpen, onClose, onSubmit }) => {
         </div>
         <DialogFooter>
           <div>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={props.onClose}>
               Cancel
             </Button>
           </div>
-          <Button type="button" onClick={() => onSubmit(selectedStatus)}>
+          <Button type="button" onClick={() => props.onSubmit(formUpdate)}>
             Update
           </Button>
         </DialogFooter>

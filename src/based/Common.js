@@ -53,7 +53,16 @@ var Common = {
     "Shipper Id",
     "Image",
   ],
-  Header2: [],
+  HeaderShipManager: [
+    "ID",
+    "Order Date",
+    "Expected Date",
+    "Price",
+    "Warehouse ID",
+    "Image",
+    "Status",
+    "Action",
+  ],
 };
 
 export default Common;

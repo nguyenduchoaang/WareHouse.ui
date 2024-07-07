@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import {
   Table,
@@ -7,49 +8,56 @@ import {
   TableBody,
   TableCell,
 } from "../components/ui/table";
+import PaginationBase from "../based/pagination";
 
-const ShipTable = ({ onRowUpdate }) => {
+const ShipTable = (props) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = props.body && props.body.slice(startIndex, endIndex);
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Order Date</TableHead>
-          <TableHead>Expected Date of Delivery</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Warehouse ID</TableHead>
-          <TableHead>Delivery Date</TableHead>
-          <TableHead>Address</TableHead>
-          <TableHead>Imported Date</TableHead>
-          <TableHead>Exported Date</TableHead>
-          <TableHead>Status</TableHead>
+          {props.header &&
+            props.header.map((item, index) => (
+              <TableHead key={index}>{item}</TableHead>
+            ))}
           <TableHead>
             <span className="sr-only">Update</span>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">1004</TableCell>
-          <TableCell>2023-10-04</TableCell>
-          <TableCell>2023-10-08</TableCell>
-          <TableCell>$850.00</TableCell>
-          <TableCell>WH126</TableCell>
-          <TableCell>2023-10-09</TableCell>
-          <TableCell>101 Pine St, City, Country</TableCell>
-          <TableCell>2023-10-05</TableCell>
-          <TableCell>2023-10-10</TableCell>
-          <TableCell className="text-red-500 font-medium">Delayed</TableCell>
-          <TableCell>
-            <Button
-              size="sm"
-              className="w-full"
-              onClick={() => onRowUpdate({ id: 1004 })}
-            >
-              Update order
-            </Button>
-          </TableCell>
-        </TableRow>
+        {currentItems &&
+          currentItems.length > 0 &&
+          currentItems.map((item, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {item.map((cell, cellIndex) =>
+                cellIndex !== 6 ? (
+                  <TableCell key={cellIndex}>{cell}</TableCell>
+                ) : null
+              )}
+              <TableCell className="text-red-500 font-medium">
+                Delayed
+              </TableCell>
+              <TableCell>
+                <Button
+                  size="sm"
+                  className="w-full"
+                  onClick={() => props.onRowUpdate(item[6])}
+                >
+                  Update order
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   );

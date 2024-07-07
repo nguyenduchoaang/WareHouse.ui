@@ -13,7 +13,7 @@ export default function OrderManager() {
   const [paging, setPaging] = useState(Common.PagingModel);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const [formGetOrder, setFormGetOrder] = useState({
-    id: "F02ED09C-BB53-4AC9-9341-629B0FAF1422",
+    id: "",
     BatchMode: BATCH_MODE.TRUNKIN,
     size: paging.size,
     page: paging.page,
@@ -24,7 +24,9 @@ export default function OrderManager() {
   }, []);
 
   const handleGetOrderByBatchMode = async () => {
-    const [err, data] = await OrderServices.GetOrdersByBatchMode(formGetOrder);
+    const id = Common.GetInfo("id");
+    const formAPI = { ...formGetOrder, id: id };
+    const [err, data] = await OrderServices.GetOrdersByBatchMode(formAPI);
     if (!err) {
       const temp = [];
       data.items.map((item) => {

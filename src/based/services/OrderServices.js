@@ -15,7 +15,7 @@ const OrderServices = {
     );
   },
   UpdateBatchModeById: async (id) => {
-    return await BaseServices.Put(`/${key}//UpdateBatchModeByWarehouse/${id}`);
+    return await BaseServices.Put(`/${key}/UpdateBatchModeByWarehouse/${id}`);
   },
 };
 
