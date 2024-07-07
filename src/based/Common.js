@@ -58,9 +58,7 @@ var Common = {
     "Order Date",
     "Expected Date",
     "Price",
-    "Warehouse ID",
     "Image",
-    "Status",
     "Action",
   ],
 };

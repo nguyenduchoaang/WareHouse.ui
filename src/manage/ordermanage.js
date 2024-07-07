@@ -5,8 +5,9 @@ import TableCustom from "../based/table";
 import { Card, CardContent } from "../components/ui/card";
 import { BATCH_MODE } from "../based/Constants";
 import Common from "../based/Common";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import Confirm from "../based/Confirm";
+import { useLoading } from "../based/context/LoadingContext";
 
 export default function OrderManager() {
   const [orders, setOrders] = useState([]);
@@ -18,12 +19,14 @@ export default function OrderManager() {
     size: paging.size,
     page: paging.page,
   });
+  const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     handleGetOrderByBatchMode();
   }, []);
 
   const handleGetOrderByBatchMode = async () => {
+    showLoading();
     const id = Common.GetInfo("id");
     const formAPI = { ...formGetOrder, id: id };
     const [err, data] = await OrderServices.GetOrdersByBatchMode(formAPI);
@@ -42,19 +45,26 @@ export default function OrderManager() {
         ]);
       });
       setOrders(temp);
+      hideLoading();
     } else {
+      hideLoading();
       console.log(err);
     }
   };
 
   const handleUpdateBatchMode = async () => {
+    showLoading();
     const id = Common.GetInfo("id");
     console.log(id);
     const [err, data] = await OrderServices.UpdateBatchModeById(id);
     if (!err) {
       console.log("sucess");
       console.log(data);
+      setOrders([]);
+      handleGetOrderByBatchMode();
+      hideLoading();
     } else {
+      hideLoading();
       console.log(err);
     }
   };

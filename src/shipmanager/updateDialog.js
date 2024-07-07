@@ -11,14 +11,17 @@ import {
 } from "../components/ui/select";
 import { Button } from "../components/ui/button";
 import { STATUS } from "../based/Constants";
+import { useLoading } from "../based/context/LoadingContext";
 import { set } from "date-fns";
+
 const UpdateDialog = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const { showLoading, hideLoading } = useLoading();
   const [formUpdate, setFormUpdate] = useState({
     image: null,
     status: "SUCCESS",
   });
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setFormUpdate({ ...formUpdate, image: file });
@@ -37,7 +40,7 @@ const UpdateDialog = (props) => {
               <Input id="image" type="file" onChange={handleImageChange} />{" "}
               {selectedImage && (
                 <img
-                  style={{ maxWidth: "400px", maxHeight: "400px" }}
+                  style={{ maxWidth: "300px", maxHeight: "400px" }}
                   src={selectedImage}
                   alt="Selected"
                   className="mt-4"
@@ -73,7 +76,17 @@ const UpdateDialog = (props) => {
               Cancel
             </Button>
           </div>
-          <Button type="button" onClick={() => props.onSubmit(formUpdate)}>
+          <Button
+            type="button"
+            onClick={() => {
+              props.onSubmit(formUpdate);
+              setFormUpdate({
+                image: null,
+                status: "SUCCESS",
+              });
+              setSelectedImage(null);
+            }}
+          >
             Update
           </Button>
         </DialogFooter>

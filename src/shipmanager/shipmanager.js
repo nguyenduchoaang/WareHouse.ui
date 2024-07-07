@@ -9,14 +9,20 @@ import {
 import ShipTable from "./shipTable";
 import UpdateDialog from "./updateDialog";
 import ShipperServices from "../based/services/ShipperServices";
-import { BATCH_MODE } from "../based/Constants";
+import CONSTANTS, { BATCH_MODE, TOASTIFY } from "../based/Constants";
 import Common from "../based/Common";
 import TableCustom from "../based/table";
 import { format } from "date-fns";
 import axios from "axios";
+import { useLoading } from "../based/context/LoadingContext";
+import Toastify from "../based/Toastify";
 const ShipManager = () => {
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [toast, setToast] = useState({
+    isOpen: false,
+    type: CONSTANTS.SUCCESS,
+    message: "",
+  });
   const [paging, setPaging] = useState(Common.PagingModel);
   const [orders, setOrders] = useState([]);
   const [formUpdate, setFormUpdate] = useState({
@@ -30,10 +36,23 @@ const ShipManager = () => {
     size: paging.size,
     page: paging.page,
   });
+  const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     handleGetOrderByBatchMode();
   }, []);
+
+  useEffect(() => {
+    if (toast.isOpen) {
+      setTimeout(() => {
+        setToast({
+          isOpen: false,
+          type: "",
+          message: "",
+        });
+      }, 500);
+    }
+  }, [toast]);
 
   const handleGetOrderByBatchMode = async () => {
     const id = Common.GetInfo("id");
@@ -49,7 +68,6 @@ const ShipManager = () => {
           format(new Date(item.orderDate), "dd/MM/yyyy hh:mm"),
           format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
           item.price,
-          item.warehouseId,
           item.img,
           item.batchId,
         ]);
@@ -61,6 +79,7 @@ const ShipManager = () => {
   };
 
   const handleUpdateOrder = async (formData) => {
+    showLoading();
     try {
       const response = await axios.post(
         "https://localhost:7280/api/v1/orders/UpdateBatchModebyShipper",
@@ -71,14 +90,41 @@ const ShipManager = () => {
           },
         }
       );
-      console.log("File", response.data);
+
+      hideLoading();
+      if (response.data === true) {
+        console.log("Update success");
+        setToast({
+          isOpen: true,
+          type: TOASTIFY.SUCCESS,
+          message: "Update success",
+        });
+        setOrders([]);
+        handleGetOrderByBatchMode();
+      } else {
+        setToast({
+          isOpen: true,
+          type: TOASTIFY.ERROR,
+          message: "Update failed",
+        });
+      }
     } catch (error) {
-      console.error("Error uploading file", error);
+      hideLoading();
+      setToast({
+        isOpen: true,
+        type: TOASTIFY.ERROR,
+        message: "Update failed",
+      });
     }
   };
 
   return (
     <>
+      <Toastify
+        isOpen={toast.isOpen}
+        type={toast.type}
+        message={toast.message}
+      />
       <Card className="w-full max-w-9xl">
         <CardHeader>
           <CardTitle>Shipper Tracking</CardTitle>

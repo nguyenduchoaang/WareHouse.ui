@@ -40,18 +40,16 @@ const ShipTable = (props) => {
           currentItems.map((item, rowIndex) => (
             <TableRow key={rowIndex}>
               {item.map((cell, cellIndex) =>
-                cellIndex !== 6 ? (
+                cellIndex !== 5 ? (
                   <TableCell key={cellIndex}>{cell}</TableCell>
                 ) : null
               )}
-              <TableCell className="text-red-500 font-medium">
-                Delayed
-              </TableCell>
+
               <TableCell>
                 <Button
                   size="sm"
                   className="w-full"
-                  onClick={() => props.onRowUpdate(item[6])}
+                  onClick={() => props.onRowUpdate(item[5])}
                 >
                   Update order
                 </Button>
