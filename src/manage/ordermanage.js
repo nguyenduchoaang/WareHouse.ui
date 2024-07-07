@@ -8,11 +8,17 @@ import Common from "../based/Common";
 import { format, set } from "date-fns";
 import Confirm from "../based/Confirm";
 import { useLoading } from "../based/context/LoadingContext";
-
+import { TOASTIFY } from "../based/Constants";
+import Toastify from "../based/Toastify";
 export default function OrderManager() {
   const [orders, setOrders] = useState([]);
   const [paging, setPaging] = useState(Common.PagingModel);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  const [toast, setToast] = useState({
+    isOpen: false,
+    type: TOASTIFY.SUCCESS,
+    message: "",
+  });
   const [formGetOrder, setFormGetOrder] = useState({
     id: "",
     BatchMode: BATCH_MODE.TRUNKIN,
@@ -24,6 +30,18 @@ export default function OrderManager() {
   useEffect(() => {
     handleGetOrderByBatchMode();
   }, []);
+
+  useEffect(() => {
+    if (toast.isOpen) {
+      setTimeout(() => {
+        setToast({
+          isOpen: false,
+          type: "",
+          message: "",
+        });
+      }, 500);
+    }
+  }, [toast]);
 
   const handleGetOrderByBatchMode = async () => {
     showLoading();
@@ -58,12 +76,20 @@ export default function OrderManager() {
     console.log(id);
     const [err, data] = await OrderServices.UpdateBatchModeById(id);
     if (!err) {
-      console.log("sucess");
-      console.log(data);
       setOrders([]);
       handleGetOrderByBatchMode();
       hideLoading();
+      setToast({
+        isOpen: true,
+        type: TOASTIFY.SUCCESS,
+        message: "Share order success",
+      });
     } else {
+      setToast({
+        isOpen: true,
+        type: TOASTIFY.ERROR,
+        message: "Share order fail",
+      });
       hideLoading();
       console.log(err);
     }
@@ -71,6 +97,11 @@ export default function OrderManager() {
 
   return (
     <>
+      <Toastify
+        isOpen={toast.isOpen}
+        type={toast.type}
+        message={toast.message}
+      />
       <Card>
         <CardContent>
           <TableCustom

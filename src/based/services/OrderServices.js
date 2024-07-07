@@ -17,6 +17,18 @@ const OrderServices = {
   UpdateBatchModeById: async (id) => {
     return await BaseServices.Put(`/${key}/UpdateBatchModeByWarehouse/${id}`);
   },
+  GetOrderImported: async (paging) => {
+    return await BaseServices.Get(`/${key}/GetOrderImported`, paging);
+  },
+  GetOrderTruckOut: async (paging) => {
+    return await BaseServices.Get(`/${key}/GetOrderTruckOut`, paging);
+  },
+  GetOrderFail: async (paging) => {
+    return await BaseServices.Get(`/${key}/GetOrderFail`, paging);
+  },
+  GetOrderSuccess: async (paging) => {
+    return await BaseServices.Get(`/${key}/GetOrderSuccess`, paging);
+  },
 };
 
 export default OrderServices;

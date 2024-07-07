@@ -1,72 +1,73 @@
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "../components/ui/dropdown-menu";
-import { Button } from "../components/ui/button";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
 } from "../components/ui/card";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "../components/ui/table";
-import { Badge } from "../components/ui/badge";
-import NavigationBase from "../based/pagination";
-import Toastify from "../based/Toastify";
-import { TOASTIFY } from "../based/Constants";
 import { useLoading } from "../based/context/LoadingContext";
-import { useEffect } from "react";
+import OrderServices from "../based/services/OrderServices";
+import { BarChart } from "../based/Chart";
+import Common from "../based/Common";
+import { ROLE } from "../based/Constants";
+
+const config = {
+  datasets: [
+    {
+      label: "Analysis Orders",
+      labels: ["Total Orders", "Orders Success", "Order Imported"],
+      data: [0, 0, 0],
+    },
+  ],
+};
 
 const OrderHeader = [
   {
     id: 1,
     name: "Total Orders",
     icon: <PackageIcon />,
-    value: "1,234",
+    value: "0",
   },
   {
     id: 2,
-    name: "Pending Shipments",
-    icon: <TruckIcon />,
-    value: "87",
+    name: "Orders Success",
+    icon: <CircleCheckIcon />,
+    value: "0",
   },
   {
     id: 3,
-    name: "Completed Shipments",
-    icon: <CircleCheckIcon />,
-    value: "1,102",
-  },
-  {
-    id: 4,
-    name: "Integrations",
-    icon: <LinkIcon />,
-    value: "5",
+    name: "Order Imported",
+    icon: <TruckIcon />,
+    value: "0",
   },
 ];
 
-export const _renderHeader = () => {
+export const _renderHeader = (props) => {
+  const { totalOrder, orderSuccess, orderImported } = props;
+  const [dataHeader, setDataHeader] = useState(OrderHeader);
+  useEffect(() => {
+    dataHeader.map((item) =>
+      item.id === 1
+        ? (item.value = totalOrder)
+        : item.id === 2
+        ? (item.value = orderSuccess)
+        : (item.value = orderImported)
+    );
+  }, [props]);
   return (
     <section>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {OrderHeader.map((item) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {dataHeader.map((item) => (
           <Card key={item.id}>
             <CardHeader className="flex items-center justify-between">
               <CardTitle>{item.name}</CardTitle>
               {item.icon}
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-bold">{item.value}</div>
+              <div className="text-4xl font-bold flex text-align items-center justify-between">
+                {item.value}
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -75,170 +76,258 @@ export const _renderHeader = () => {
   );
 };
 
-const _renderRecentOrders = (props) => {
+// const _renderRecentOrders = (props) => {
+//   return (
+//     <>
+//       <section>
+//         <div className="flex items-center justify-between">
+//           <h2 className="text-2xl font-bold">Recent Orders</h2>
+//           <Button size="sm" variant="outline">
+//             <PlusIcon className="w-4 h-4 mr-2" />
+//             Create Order
+//           </Button>
+//         </div>
+//         <Table>
+//           <TableHeader>
+//             <TableRow>
+//               <TableHead>Order ID</TableHead>
+//               <TableHead>Customer</TableHead>
+//               <TableHead>Status</TableHead>
+//               <TableHead>Shipping</TableHead>
+//               <TableHead>Total</TableHead>
+//               <TableHead>Actions</TableHead>
+//             </TableRow>
+//           </TableHeader>
+//           <TableBody>
+//             <TableRow>
+//               <TableCell>ORD-123</TableCell>
+//               <TableCell>John Doe</TableCell>
+//               <TableCell>
+//                 <Badge variant="secondary">Pending</Badge>
+//               </TableCell>
+//               <TableCell>
+//                 <Button size="sm" variant="outline">
+//                   <TruckIcon className="w-4 h-4 mr-2" />
+//                   Ship
+//                 </Button>
+//               </TableCell>
+//               <TableCell>$249.99</TableCell>
+//               <TableCell>
+//                 <DropdownMenu>
+//                   <DropdownMenuTrigger asChild>
+//                     <Button size="icon" variant="outline">
+//                       <MoveHorizontalIcon className="w-4 h-4" />
+//                     </Button>
+//                   </DropdownMenuTrigger>
+//                   <DropdownMenuContent align="end">
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Warehouse
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Shipper
+//                     </DropdownMenuItem>
+//                     <DropdownMenuSeparator />
+//                     <DropdownMenuItem>
+//                       <FilePenIcon className="w-4 h-4 mr-2" />
+//                       Edit
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <TrashIcon className="w-4 h-4 mr-2" />
+//                       Delete
+//                     </DropdownMenuItem>
+//                   </DropdownMenuContent>
+//                 </DropdownMenu>
+//               </TableCell>
+//             </TableRow>
+//             <TableRow>
+//               <TableCell>ORD-456</TableCell>
+//               <TableCell>Jane Smith</TableCell>
+//               <TableCell>
+//                 <Badge variant="secondary">Pending</Badge>
+//               </TableCell>
+//               <TableCell>
+//                 <Button size="sm" variant="outline">
+//                   <TruckIcon className="w-4 h-4 mr-2" />
+//                   Ship
+//                 </Button>
+//               </TableCell>
+//               <TableCell>$189.99</TableCell>
+//               <TableCell>
+//                 <DropdownMenu>
+//                   <DropdownMenuTrigger asChild>
+//                     <Button size="icon" variant="outline">
+//                       <MoveHorizontalIcon className="w-4 h-4" />
+//                     </Button>
+//                   </DropdownMenuTrigger>
+//                   <DropdownMenuContent align="end">
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Warehouse
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Shipper
+//                     </DropdownMenuItem>
+//                     <DropdownMenuSeparator />
+//                     <DropdownMenuItem>
+//                       <FilePenIcon className="w-4 h-4 mr-2" />
+//                       Edit
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <TrashIcon className="w-4 h-4 mr-2" />
+//                       Delete
+//                     </DropdownMenuItem>
+//                   </DropdownMenuContent>
+//                 </DropdownMenu>
+//               </TableCell>
+//             </TableRow>
+//             <TableRow>
+//               <TableCell>ORD-789</TableCell>
+//               <TableCell>Michael Johnson</TableCell>
+//               <TableCell>
+//                 <Badge variant="secondary">Pending</Badge>
+//               </TableCell>
+//               <TableCell>
+//                 <Button size="sm" variant="outline">
+//                   <TruckIcon className="w-4 h-4 mr-2" />
+//                   Ship
+//                 </Button>
+//               </TableCell>
+//               <TableCell>$299.99</TableCell>
+//               <TableCell>
+//                 <DropdownMenu>
+//                   <DropdownMenuTrigger asChild>
+//                     <Button size="icon" variant="outline">
+//                       <MoveHorizontalIcon className="w-4 h-4" />
+//                     </Button>
+//                   </DropdownMenuTrigger>
+//                   <DropdownMenuContent align="end">
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Warehouse
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <ShareIcon className="w-4 h-4 mr-2" />
+//                       Share with Shipper
+//                     </DropdownMenuItem>
+//                     <DropdownMenuSeparator />
+//                     <DropdownMenuItem>
+//                       <FilePenIcon className="w-4 h-4 mr-2" />
+//                       Edit
+//                     </DropdownMenuItem>
+//                     <DropdownMenuItem>
+//                       <TrashIcon className="w-4 h-4 mr-2" />
+//                       Delete
+//                     </DropdownMenuItem>
+//                   </DropdownMenuContent>
+//                 </DropdownMenu>
+//               </TableCell>
+//             </TableRow>
+//           </TableBody>
+//         </Table>
+//         <NavigationBase />
+//       </section>
+//     </>
+//   );
+// };
+export default function HomePage() {
+  const [totalOrder, setTotalOrder] = useState({
+    totalOrder: 0,
+    orderSuccess: 0,
+    orderImported: 0,
+  });
+  const navigate = useNavigate();
+
+  const [barChart, setBarChart] = useState(config);
+  const { showLoading, hideLoading } = useLoading();
+  useEffect(() => {
+    let role = Common.CheckRole();
+    switch (role) {
+      case ROLE.WAREHOUSE:
+        navigate("/manage");
+        break;
+      case ROLE.SHIPPER:
+        navigate("/ship");
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  useEffect(() => {
+    showLoading();
+    const totalOrderAPI = { ...totalOrder };
+    const fetchData = async () => {
+      const [err, data] = await OrderServices.GetOrders();
+      if (!err) {
+        totalOrderAPI.totalOrder = data.total;
+      } else {
+        console.log("err", err);
+      }
+      const [err1, data1] = await OrderServices.GetOrderSuccess();
+      if (!err1) {
+        totalOrderAPI.orderSuccess = data1.total;
+      } else {
+        console.log("err", err1);
+      }
+      const [err2, data2] = await OrderServices.GetOrderImported();
+      if (!err2) {
+        totalOrderAPI.orderImported = data2.total;
+      } else {
+        console.log("err", err2);
+      }
+      setTotalOrder(totalOrderAPI);
+      setBarChart({
+        datasets: [
+          {
+            label: "Analysis Orders",
+            labels: ["Total Orders", "Orders Success", "Order Imported"],
+            data: [
+              totalOrderAPI.totalOrder,
+              totalOrderAPI.orderSuccess,
+              totalOrderAPI.orderImported,
+            ],
+          },
+        ],
+      });
+      hideLoading();
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
-      <section>
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Recent Orders</h2>
-          <Button size="sm" variant="outline">
-            <PlusIcon className="w-4 h-4 mr-2" />
-            Create Order
-          </Button>
-        </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Order ID</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Shipping</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>ORD-123</TableCell>
-              <TableCell>John Doe</TableCell>
-              <TableCell>
-                <Badge variant="secondary">Pending</Badge>
-              </TableCell>
-              <TableCell>
-                <Button size="sm" variant="outline">
-                  <TruckIcon className="w-4 h-4 mr-2" />
-                  Ship
-                </Button>
-              </TableCell>
-              <TableCell>$249.99</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="icon" variant="outline">
-                      <MoveHorizontalIcon className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Warehouse
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Shipper
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <FilePenIcon className="w-4 h-4 mr-2" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <TrashIcon className="w-4 h-4 mr-2" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>ORD-456</TableCell>
-              <TableCell>Jane Smith</TableCell>
-              <TableCell>
-                <Badge variant="secondary">Pending</Badge>
-              </TableCell>
-              <TableCell>
-                <Button size="sm" variant="outline">
-                  <TruckIcon className="w-4 h-4 mr-2" />
-                  Ship
-                </Button>
-              </TableCell>
-              <TableCell>$189.99</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="icon" variant="outline">
-                      <MoveHorizontalIcon className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Warehouse
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Shipper
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <FilePenIcon className="w-4 h-4 mr-2" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <TrashIcon className="w-4 h-4 mr-2" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>ORD-789</TableCell>
-              <TableCell>Michael Johnson</TableCell>
-              <TableCell>
-                <Badge variant="secondary">Pending</Badge>
-              </TableCell>
-              <TableCell>
-                <Button size="sm" variant="outline">
-                  <TruckIcon className="w-4 h-4 mr-2" />
-                  Ship
-                </Button>
-              </TableCell>
-              <TableCell>$299.99</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="icon" variant="outline">
-                      <MoveHorizontalIcon className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Warehouse
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <ShareIcon className="w-4 h-4 mr-2" />
-                      Share with Shipper
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <FilePenIcon className="w-4 h-4 mr-2" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <TrashIcon className="w-4 h-4 mr-2" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <NavigationBase />
-      </section>
+      <div className="flex flex-col min-h-screen">
+        <h3 style={{ fontSize: "20px" }} className="font-bold">
+          Thống kê lượng đơn hàng hệ thống
+        </h3>
+        <main className="flex-1 grid gap-8 p-4 md:p-6">
+          {_renderHeader(totalOrder)}
+          {/* {_renderRecentOrders()} */}
+          <h3 style={{ fontSize: "20px" }} className="font-bold">
+            Biểu đồ theo dõi
+          </h3>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+            className=" flex items-center justify-between"
+          >
+            <div
+              style={{ width: "40%", display: "flex" }}
+              className="bar-chart"
+            >
+              {" "}
+              <BarChart data={barChart} />
+            </div>
+          </div>
+        </main>
+      </div>
     </>
-  );
-};
-export default function HomePage() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 grid gap-8 p-4 md:p-6">
-        {_renderHeader()}
-        {_renderRecentOrders()}
-      </main>
-    </div>
   );
 }
 

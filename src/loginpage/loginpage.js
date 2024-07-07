@@ -43,18 +43,21 @@ export default function LoginComponent() {
       switch (role) {
         case ROLE.ADMIN:
           cookies.save("id", data.adminResponse.id);
+          navigate("/");
           break;
         case ROLE.WAREHOUSE:
           cookies.save("id", data.warehouseResponse.id);
+          navigate("/manage");
+
           break;
         case ROLE.SHIPPER:
           cookies.save("id", data.shipperResponse.id);
+          navigate("/ship");
           break;
         default:
           break;
       }
       hideLoading();
-      navigate("/");
     } else {
       hideLoading();
       console.log(err);
