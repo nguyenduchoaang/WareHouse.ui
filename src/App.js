@@ -4,24 +4,14 @@ import { Routes, Route } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import Default from "./layout/defaultlayout";
 import LoadingW from "./based/LoadingW";
-function App() {
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   const [err, data] = await BaseServices.Get(
-    //     "https://jsonplaceholder.typicode.com/posts"
-    //   );
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     console.log(data);
-    //   }
-    // };
-    // fetchData();
-  }, []);
+import { LoadingProvider, useLoading } from "./based/context/LoadingContext";
+
+function AppContent() {
+  const { isLoading } = useLoading();
+
   return (
-    <p>
-      {/* <LoadingW isOpen={true} /> */}
-      {/* <Homepage /> */}
+    <>
+      {isLoading && <LoadingW isOpen={isLoading} />}
       <Routes>
         {AppRoutes.map((route, index) => {
           let Layout = route.layout ?? Default;
@@ -38,7 +28,15 @@ function App() {
           );
         })}
       </Routes>
-    </p>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <LoadingProvider>
+      <AppContent />
+    </LoadingProvider>
   );
 }
 

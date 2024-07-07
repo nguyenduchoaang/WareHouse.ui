@@ -13,9 +13,10 @@ import {
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
 import Common from "./Common";
-import AccountServices from "./services/AccountServices";
-import axios from "axios";
+import { useLoading } from "./context/LoadingContext";
+
 export default function NavBar() {
+  const { showLoading, hideLoading } = useLoading();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -32,11 +33,11 @@ export default function NavBar() {
   }, [isLoggedIn]);
 
   const handleLogout = async () => {
-    const refreshToken = Common.GetRefreshToken();
-    console.log(refreshToken);
+    showLoading();
     Common.RemoveToken();
     setIsLoggedIn(false);
     navigate("/login");
+    hideLoading();
   };
 
   return (

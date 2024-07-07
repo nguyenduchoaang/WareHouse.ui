@@ -11,11 +11,14 @@ import cookies from "react-cookies";
 import Common from "../based/Common";
 import Banner from "../assets/banner.jpg";
 import CONSTANTS, { ROLE } from "../based/Constants";
+import { useLoading } from "../based/context/LoadingContext";
+
 export default function LoginComponent() {
   const [infoLogin, setInfoLogin] = useState({
     email: "",
     password: "",
   });
+  const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (e) => {
@@ -29,6 +32,7 @@ export default function LoginComponent() {
   }, []);
 
   const handleLogin = async (model) => {
+    showLoading();
     const [err, data] = await AccountServices.Login(model);
     if (!err) {
       cookies.save("token", data.accessToken);
@@ -49,8 +53,10 @@ export default function LoginComponent() {
         default:
           break;
       }
+      hideLoading();
       navigate("/");
     } else {
+      hideLoading();
       console.log(err);
     }
   };

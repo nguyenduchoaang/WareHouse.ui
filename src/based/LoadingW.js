@@ -6,7 +6,7 @@ const LoadingW = ({ isOpen }) => {
     <LoadingContainer style={{ display: isOpen ? "flex" : "none" }}>
       <SpinnerContainer>
         <Spinner />
-        {/* <img src={Logo} alt="logo" /> */}
+        <img src={Logo} alt="logo" />
       </SpinnerContainer>
     </LoadingContainer>
   );
@@ -34,7 +34,7 @@ const SpinnerContainer = styled.div`
   width: 100px;
   height: 100px;
   img {
-    width: 80px;
+    width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -45,7 +45,7 @@ const SpinnerContainer = styled.div`
 const Spinner = styled.div`
   position: absolute;
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #ff5c00;
+  border-left-color: #0093d9;
 
   border-radius: 50%;
   width: 100%;

@@ -6,7 +6,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "../components/ui/dropdown-menu";
-
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -24,7 +23,11 @@ import {
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import NavigationBase from "../based/pagination";
-import LoadingW from "../based/LoadingW";
+import Toastify from "../based/Toastify";
+import { TOASTIFY } from "../based/Constants";
+import { useLoading } from "../based/context/LoadingContext";
+import { useEffect } from "react";
+
 const OrderHeader = [
   {
     id: 1,
@@ -49,30 +52,6 @@ const OrderHeader = [
     name: "Integrations",
     icon: <LinkIcon />,
     value: "5",
-  },
-];
-const ConfigTableHeader = {
-  1: "Order Id",
-  2: "Img",
-  3: "Order Date",
-  4: "Expected",
-  5: "Address",
-  6: "Warehouse",
-  7: "Shipper",
-  8: "Status",
-  9: "Price",
-};
-const DataTable = [
-  {
-    id: 1,
-    img: "https://source.unsplash.com/random/100x100",
-    orderDate: "June 12, 2023",
-    expected: "June 15, 2023",
-    address: "1234 Main St, Los Angeles, CA 90001",
-    wareHouse: "Warehouse 1",
-    shipper: "UPS",
-    status: "In Transit",
-    price: "$249.99",
   },
 ];
 

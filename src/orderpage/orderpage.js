@@ -33,7 +33,10 @@ import ExcelTable from "./readexel";
 import Common from "../based/Common";
 import WareHouseServices from "../based/services/WareHouseServices";
 import axios from "axios";
-
+import { useLoading } from "../based/context/LoadingContext";
+import Toastify from "../based/Toastify";
+import CONSTANTS, { TOASTIFY } from "../based/Constants";
+import { set } from "date-fns";
 const Selection = (props) => {
   return (
     <Select onValueChange={(value) => props.onChanged(value)}>
@@ -57,6 +60,12 @@ const Selection = (props) => {
 };
 
 export default function OrderPage() {
+  const { showLoading, hideLoading } = useLoading();
+  const [toast, setToast] = useState({
+    isOpen: false,
+    type: "",
+    message: "",
+  });
   const [listWarehouse, setListWarehouse] = useState([]);
   const [paging, setPaging] = useState(Common.PagingModel);
   const [dataExcel, setDataExcel] = useState([]);
@@ -67,12 +76,22 @@ export default function OrderPage() {
     handleGetWareHouse(paging);
   }, []);
 
+  useEffect(() => {
+    if (toast.isOpen) {
+      const timer = setTimeout(() => {
+        setToast({ isOpen: false, type: "", message: "" });
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
   const handleFileUploadAPI = async () => {
     const formData = new FormData();
     formData.append("WarehouseId", selectedWarehouseId);
     formData.append("Orderfile", file);
 
     try {
+      showLoading();
       const response = await axios.post(
         "https://localhost:7280/api/v1/orders/CreateOrder",
         formData,
@@ -82,8 +101,31 @@ export default function OrderPage() {
           },
         }
       );
-      console.log("Order created successfully:", response.data);
+      console.log("res", response);
+      if (response.data === true) {
+        setToast({
+          isOpen: true,
+          type: TOASTIFY.SUCCESS,
+          message: "Create order successfully",
+        });
+        setDataExcel([]);
+        setSelectedWarehouseId("");
+        setFile(null);
+      } else {
+        setToast({
+          isOpen: true,
+          type: TOASTIFY.ERROR,
+          message: "Create order failed",
+        });
+      }
+      hideLoading();
     } catch (error) {
+      hideLoading();
+      setToast({
+        isOpen: true,
+        type: TOASTIFY.ERROR,
+        message: "Create order failed",
+      });
       console.error("Error creating order:", error);
     }
   };
@@ -126,7 +168,12 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full ">
+      <Toastify
+        isOpen={toast.isOpen}
+        type={toast.type}
+        message={toast.message}
+      ></Toastify>
       <div className="flex flex-col w-full">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Breadcrumb className="hidden md:flex">

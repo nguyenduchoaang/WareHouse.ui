@@ -25,5 +25,12 @@ var STATUS = [
   },
 ];
 
-export { BATCH_MODE, ROLE, STATUS };
+var TOASTIFY = {
+  SUCCESS: "success",
+  ERROR: "error",
+  WARNING: "warning",
+  INFO: "info",
+};
+
+export { BATCH_MODE, ROLE, STATUS, TOASTIFY };
 export default CONSTANTS;
