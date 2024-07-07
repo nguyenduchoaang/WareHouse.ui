@@ -80,6 +80,30 @@ var Request = {
     var result = await instance.post(url, data);
     return result;
   },
+  Put: function (url, data) {
+    return new Promise((resolve, reject) => {
+      instance
+        .put(url, data, {
+          cancelToken: new CancelToken(function executor(c) {
+            // An executor function receives a cancel function as a parameter
+            cancel = c;
+          }),
+        })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            Common.RemoveToken();
+            window.location.href = "/login?redirect=" + window.location.href;
+          } else if (error.response && error.response.status === 403) {
+            window.location.href = "/access-denied";
+          } else if (error.response) {
+            reject(error.response.data);
+          }
+        });
+    });
+  },
 
   Delete: function (url, params) {
     return new Promise((resolve, reject) => {

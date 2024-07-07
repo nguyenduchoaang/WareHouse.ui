@@ -11,7 +11,7 @@ import PaginationBase from "./pagination";
 
 const TableCustom = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 3;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -21,7 +21,7 @@ const TableCustom = (props) => {
   const endIndex = startIndex + itemsPerPage;
   const currentItems = props.body && props.body.slice(startIndex, endIndex);
 
-  console.log("current", currentItems);
+  console.log("body", props.body);
 
   return (
     <>

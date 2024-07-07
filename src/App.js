@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import Default from "./layout/defaultlayout";
+import LoadingW from "./based/LoadingW";
 function App() {
   useEffect(() => {
     // const fetchData = async () => {
@@ -19,6 +20,7 @@ function App() {
   }, []);
   return (
     <p>
+      {/* <LoadingW isOpen={true} /> */}
       {/* <Homepage /> */}
       <Routes>
         {AppRoutes.map((route, index) => {

@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
 import { toast } from "../components/ui/use-toast";
-import { Main, CreateOrder, StatusOrder, ShareOrder, Home } from "./configsvg";
 import { useEffect, useState } from "react";
-import { ShipIcon } from "lucide-react";
+import Common from "./Common";
+import { ROLE } from "./Constants";
 
 const ConfigNavbar = [
   {
@@ -11,58 +10,42 @@ const ConfigNavbar = [
     link: "/order",
     name: "Create Order",
     icon: <CirclePlusIcon />,
+    role: ROLE.ADMIN,
   },
   {
-    id: 3,
+    id: 2,
     link: "/manage",
     name: "Order Management",
     icon: <ShoppingCartIcon />,
+    role: ROLE.WAREHOUSE,
   },
   {
     id: 3,
     link: "/ship",
     name: "Ship Management",
     icon: <PackageIcon />,
+    role: ROLE.SHIPPER,
   },
   {
-    id: 3,
+    id: 4,
     link: "/analysis",
     name: "Analysis",
     icon: <LineChartIcon />,
+    role: ROLE.ADMIN,
   },
-
-  // {
-  //   id: 4,
-  //   link: "/warehouse",
-  //   name: "Warehouse Share",
-  //   icon: <PackageIcon />,
-  // },
 ];
 
 export default function NavBarLeft() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState("");
+  const [role, setRole] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    const accessToken = sessionStorage.getItem("accessToken");
-    const userName = sessionStorage.getItem("name");
-    if (accessToken) {
-      setIsLoggedIn(true);
-      setName(userName);
-    } else {
-      setIsLoggedIn(false);
-      setName("");
-    }
-  }, [isLoggedIn]);
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-    setIsLoggedIn(false);
-    navigate("/");
-    toast({
-      title: "Thành công✅",
-      description: "Bạn đã đăng xuất.",
-    });
+  useEffect(() => {
+    handleCheckRole();
+  }, []);
+
+  const handleCheckRole = () => {
+    var role = Common.CheckRole();
+    setRole(role);
   };
 
   return (
@@ -80,43 +63,41 @@ export default function NavBarLeft() {
           <span className="sr-only">Warehouse Management</span>
         </Link>
       </div>
-      <nav className="flex flex-1 flex-col items-start gap-4 overflow-y-auto px-2 py-4 sm:px-6">
-        {ConfigNavbar.map((item) => (
-          <Link
-            key={item.id}
-            to={item.link}
-            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-          >
-            {item.icon}
-            <span>{item.name}</span>
-          </Link>
-        ))}
-      </nav>
+      {_renderNavbar(role !== null && role)}
     </nav>
   );
 }
 
-function LayoutDashboardIcon(props) {
+const _renderNavbar = (role) => {
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="7" height="9" x="3" y="3" rx="1" />
-      <rect width="7" height="5" x="14" y="3" rx="1" />
-      <rect width="7" height="9" x="14" y="12" rx="1" />
-      <rect width="7" height="5" x="3" y="16" rx="1" />
-    </svg>
+    <nav className="flex flex-1 flex-col items-start gap-4 overflow-y-auto px-2 py-4 sm:px-6">
+      {/* {ConfigNavbar.map((item) => (
+        <Link
+          key={item.id}
+          to={item.link}
+          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+        >
+          {item.icon}
+          <span>{item.name}</span>
+        </Link>
+      ))} */}
+      {ConfigNavbar.map((item) => {
+        if (item.role === role) {
+          return (
+            <Link
+              key={item.id}
+              to={item.link}
+              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </Link>
+          );
+        }
+      })}
+    </nav>
   );
-}
+};
 
 function PackageIcon(props) {
   return (

@@ -2,35 +2,16 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import OrderServices from "../based/services/OrderServices";
 import TableCustom from "../based/table";
-import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { BATCH_MODE } from "../based/Constants";
 import Common from "../based/Common";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../components/ui/dialog";
-
-const configHeader = [
-  "ID",
-  "Order Date",
-  "Expected Date",
-  "Price",
-  "Delivery Date",
-  "Batch Mode",
-  "Shipper Id",
-  "Image",
-];
+import Confirm from "../based/Confirm";
 
 export default function OrderManager() {
   const [orders, setOrders] = useState([]);
   const [paging, setPaging] = useState(Common.PagingModel);
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const [formGetOrder, setFormGetOrder] = useState({
     id: "F02ED09C-BB53-4AC9-9341-629B0FAF1422",
     BatchMode: BATCH_MODE.TRUNKIN,
@@ -58,26 +39,44 @@ export default function OrderManager() {
           item.img,
         ]);
       });
-      console.log(temp);
       setOrders(temp);
     } else {
       console.log(err);
     }
   };
 
-  console.log(orders);
+  const handleUpdateBatchMode = async () => {
+    const id = Common.GetInfo("id");
+    console.log(id);
+    const [err, data] = await OrderServices.UpdateBatchModeById(id);
+    if (!err) {
+      console.log("sucess");
+      console.log(data);
+    } else {
+      console.log(err);
+    }
+  };
 
   return (
     <>
       <Card>
         <CardContent>
           <TableCustom
-            data={configHeader}
-            header={configHeader}
+            header={Common.HeaderOrderManager}
             body={orders && orders.length > 0 && orders}
           />
           <div className="flex justify-end">
-            <Button type="submit">Share Order</Button>
+            <Confirm
+              nameShow="Share Order"
+              header="Share Order"
+              content="Share this order to shipper?"
+              nameBtn="Share"
+              nameBtnCancel="Cancel"
+              handleSave={(value) => {
+                setIsOpenConfirm(false);
+                handleUpdateBatchMode();
+              }}
+            />
           </div>
         </CardContent>
       </Card>

@@ -14,6 +14,9 @@ const OrderServices = {
       `/${key}/GetOrderOfWarehouseByBatchMode/${model.id}?BatchMode=${model.BatchMode}&page=${model.page}&size=${model.size}`
     );
   },
+  UpdateBatchModeById: async (id) => {
+    return await BaseServices.Put(`/${key}//UpdateBatchModeByWarehouse/${id}`);
+  },
 };
 
 export default OrderServices;

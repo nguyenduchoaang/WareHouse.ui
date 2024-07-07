@@ -28,6 +28,15 @@ const BaseServices = {
       return [err, null];
     }
   },
+  Put: async (url, params) => {
+    try {
+      const res = await Request.Put(url, params);
+      if (res.status === 200 || res !== null) return [null, res];
+      return [res, null];
+    } catch (err) {
+      return [err, null];
+    }
+  },
 };
 
 export default BaseServices;

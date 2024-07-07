@@ -8,6 +8,11 @@ var BATCH_MODE = {
   IMPORTED: "IMPORTED",
   TRUNKIN: "TRUCKIN",
 };
+var ROLE = {
+  ADMIN: "Admin",
+  WAREHOUSE: "Warehouse",
+  SHIPPER: "Shipper",
+};
 
-export { BATCH_MODE };
+export { BATCH_MODE, ROLE };
 export default CONSTANTS;

@@ -9,6 +9,8 @@ import NavBar from "../based/navbar";
 import AccountServices from "../based/services/AccountServices";
 import cookies from "react-cookies";
 import Common from "../based/Common";
+import Banner from "../assets/banner.jpg";
+import CONSTANTS, { ROLE } from "../based/Constants";
 export default function LoginComponent() {
   const [infoLogin, setInfoLogin] = useState({
     email: "",
@@ -31,6 +33,22 @@ export default function LoginComponent() {
     if (!err) {
       cookies.save("token", data.accessToken);
       cookies.save("refreshToken", data.refreshToken);
+      cookies.save("accountId", data.accountId);
+      cookies.save("role", data.roleName);
+      var role = data.roleName;
+      switch (role) {
+        case ROLE.ADMIN:
+          cookies.save("id", data.adminResponse.id);
+          break;
+        case ROLE.WAREHOUSE:
+          cookies.save("id", data.warehouseResponse.id);
+          break;
+        case ROLE.SHIPPER:
+          cookies.save("id", data.shipperResponse.id);
+          break;
+        default:
+          break;
+      }
       navigate("/");
     } else {
       console.log(err);
@@ -42,16 +60,16 @@ export default function LoginComponent() {
       <div
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://img.freepik.com/free-photo/modern-empty-room_23-2150528603.jpg?w=1380&t=st=1720209150~exp=1720209750~hmac=d0f7ba450c3b3272383e75e97bddb9b7afd97a285911012cf2bd77ee84cd128c')`,
+          backgroundImage: `url('${Banner}')`,
           zIndex: -1,
         }}
       />
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Chào mừng trở lại</h1>
+          <h1 className="text-3xl font-bold 	 ">Chào mừng trở lại</h1>
           <p
             className="text-muted-foreground font-semibold"
-            style={{ color: "#1A2130" }}
+            style={{ color: "#1A2130", fontSize: "17px" }}
           >
             Vui lòng nhập tài khoản mật khẩu của bạn để đăng nhập.
           </p>
@@ -85,13 +103,13 @@ export default function LoginComponent() {
               </div>
             </CardContent>
             <CardFooter>
-              <button
+              <Button
                 onClick={() => handleLogin(infoLogin)}
                 type="submit"
                 className="w-full"
               >
                 Đăng nhập
-              </button>
+              </Button>
             </CardFooter>
           </form>
         </Card>
