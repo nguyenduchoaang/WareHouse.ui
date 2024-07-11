@@ -6,6 +6,8 @@ import OrderPage from "./orderpage/orderpage";
 import Analysis from "./analysis/analysis";
 import OrderManager from "./manage/ordermanage";
 import ShipManager from "./shipmanager/shipmanager";
+import BatchManager from "./manage/batchmanage";
+
 const AppRoutes = [
   {
     path: "/",
@@ -36,6 +38,10 @@ const AppRoutes = [
   {
     path: "/ship",
     element: ShipManager,
+  },
+  {
+    path: "/batch-manager",
+    element: BatchManager,
   },
 ];
 
