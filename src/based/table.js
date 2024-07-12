@@ -8,6 +8,7 @@ import {
   TableCell,
 } from "../components/ui/table";
 import PaginationBase from "./pagination";
+import Common from "./Common";
 
 const TableCustom = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,19 +36,45 @@ const TableCustom = (props) => {
             )}
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {currentItems &&
-            currentItems.length > 0 &&
-            currentItems.map((item, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {item.map((cell, cellIndex) => (
-                  <>
-                    <TableCell key={cellIndex}>{cell}</TableCell>
-                  </>
-                ))}
-              </TableRow>
-            ))}
-        </TableBody>
+        {props.isExcel ? (
+          <TableBody>
+            {currentItems &&
+              currentItems.length > 0 &&
+              currentItems.map((item, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {item.map((cell, cellIndex) => (
+                    <>
+                      {cellIndex === 0 || cellIndex === 1 || cellIndex === 3 ? (
+                        <TableCell key={cellIndex}>
+                          {cellIndex === 0 || cellIndex === 1 || cellIndex === 3
+                            ? Common.excelSerialDateToJSDate(
+                                cell
+                              ).toLocaleDateString()
+                            : cell}
+                        </TableCell>
+                      ) : (
+                        <TableCell key={cellIndex}>{cell}</TableCell>
+                      )}
+                    </>
+                  ))}
+                </TableRow>
+              ))}
+          </TableBody>
+        ) : (
+          <TableBody>
+            {currentItems &&
+              currentItems.length > 0 &&
+              currentItems.map((item, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {item.map((cell, cellIndex) => (
+                    <>
+                      <TableCell key={cellIndex}>{cell}</TableCell>
+                    </>
+                  ))}
+                </TableRow>
+              ))}
+          </TableBody>
+        )}
       </Table>
       <PaginationBase
         totalPages={Math.ceil(props.body && props.body.length / itemsPerPage)}

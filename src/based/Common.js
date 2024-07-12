@@ -62,6 +62,13 @@ var Common = {
     "Image",
     "Action",
   ],
+  excelSerialDateToJSDate(serial) {
+    var excelEpoch = new Date(1900, 0, 1);
+    var jsDate = new Date(
+      excelEpoch.getTime() + (serial - 1) * 24 * 60 * 60 * 1000
+    );
+    return jsDate;
+  },
 };
 
 export default Common;

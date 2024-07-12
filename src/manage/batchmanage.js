@@ -16,13 +16,15 @@ export default function BatchManager() {
   const [pagingBatch, setPagingBatch] = useState(Common.PagingModel);
   const [formGetBatch, setFormGetBatch] = useState({
     id: "",
-    batchMode: BATCH_MODE.TRUNKIN,
+    batchmode: BATCH_MODE.TRUCKIN,
     size: pagingBatch.size,
     page: pagingBatch.page,
   });
   const [listBatch, setListBatch] = useState([]);
   useEffect(() => {
-    handleGetListBatchByWarehouse();
+    let id = Common.GetInfo("id");
+    let model = { ...formGetBatch, id: id };
+    handleGetListBatchByWarehouse(model);
   }, []);
   const [toast, setToast] = useState({
     isOpen: false,
@@ -46,10 +48,8 @@ export default function BatchManager() {
     }
   }, [toast]);
 
-  const handleGetListBatchByWarehouse = async () => {
-    const id = Common.GetInfo("id");
-    const formAPI = { ...formGetBatch, id: id };
-    const [err, data] = await OrderServices.GetListBatchByWarehouse(formAPI);
+  const handleGetListBatchByWarehouse = async (model) => {
+    const [err, data] = await OrderServices.GetListBatchByWarehouse(model);
     if (!err) {
       console.log(data);
       setListBatch(data.items);

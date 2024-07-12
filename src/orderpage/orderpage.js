@@ -40,7 +40,7 @@ import { set } from "date-fns";
 const Selection = (props) => {
   return (
     <Select onValueChange={(value) => props.onChanged(value)}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[240px]">
         <SelectValue placeholder="Select a Wave House" />
       </SelectTrigger>
       <SelectContent>
@@ -160,7 +160,7 @@ export default function OrderPage() {
       const handleData = data.items.map((item) => {
         return {
           ...item,
-          name: item.fullName,
+          name: item.location,
         };
       });
       setListWarehouse(handleData);

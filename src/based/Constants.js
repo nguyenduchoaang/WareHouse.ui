@@ -7,7 +7,7 @@ var CONSTANTS = {
 var BATCH_MODE = {
   SUCCESS: "SUCCESS",
   IMPORTED: "IMPORTED",
-  TRUNKIN: "TRUCKIN",
+  TRUCKIN: "TRUCKIN",
 };
 var ROLE = {
   ADMIN: "Admin",

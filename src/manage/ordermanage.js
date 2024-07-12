@@ -84,14 +84,19 @@ export default function OrderManager() {
     const model = { ...modelGetOrder, id: id };
     const [err, data] = await OrderServices.GetListOrderDetailByBatch(model);
     if (!err) {
+      console.log("data", data);
       const temp = [];
       data.items.map((item, index) => {
+        const deliveryDateFormatted =
+          item.deliveryDate !== "0001-01-01T00:00:00"
+            ? format(new Date(item.deliveryDate), "dd/MM/yyyy hh:mm")
+            : "Chưa giao";
         temp.push([
           index + 1,
           format(new Date(item.orderDate), "dd/MM/yyyy hh:mm"),
           format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
           item.price,
-          format(new Date(item.deliveryDate), "dd/MM/yyyy hh:mm"),
+          deliveryDateFormatted,
           item.address,
           item.cusName,
           item.batchId,
@@ -100,7 +105,6 @@ export default function OrderManager() {
       });
       setOrders(temp);
       hideLoading();
-      console.log(data);
     } else {
       hideLoading();
 
@@ -110,12 +114,14 @@ export default function OrderManager() {
 
   const handleUpdateBatchMode = async () => {
     showLoading();
-    const id = Common.GetInfo("id");
-    console.log(id);
-    const [err, data] = await OrderServices.UpdateBatchModeById(id);
+    const wareHouseId = Common.GetInfo("id");
+    let model = {
+      wareHouseId: wareHouseId,
+      batchId: id,
+    };
+    const [err, data] = await OrderServices.UpdateBatchModeById(model);
     if (!err) {
       setOrders([]);
-      // handleGetOrderByBatchMode();
       hideLoading();
       setToast({
         isOpen: true,
@@ -128,6 +134,7 @@ export default function OrderManager() {
         type: TOASTIFY.ERROR,
         message: "Share order fail",
       });
+      console.log(data);
       hideLoading();
       console.log(err);
     }
