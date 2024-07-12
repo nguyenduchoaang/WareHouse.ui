@@ -34,7 +34,7 @@ const ShipManager = () => {
   });
   const [formGetOrder, setFormGetOrder] = useState({
     id: "",
-    BatchMode: BATCH_MODE.IMPORTED,
+    BatchMode: BATCH_MODE.DELIVERING,
     size: paging.size,
     page: paging.page,
   });

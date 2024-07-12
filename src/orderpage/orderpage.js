@@ -111,6 +111,7 @@ export default function OrderPage() {
         setDataExcel([]);
         setSelectedWarehouseId("");
         setFile(null);
+        window.location.reload();
       } else {
         setToast({
           isOpen: true,
@@ -130,9 +131,30 @@ export default function OrderPage() {
     }
   };
 
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+
+  //   reader.onload = (e) => {
+  //     const binaryStr = e.target.result;
+  //     const workbook = XLSX.read(binaryStr, { type: "binary" });
+
+  //     const sheetName = workbook.SheetNames[0];
+  //     const sheet = workbook.Sheets[sheetName];
+  //     const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+  //     setDataExcel(jsonData);
+  //   };
+  //   reader.readAsBinaryString(file);
+  // };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+    if (!file) {
+      console.error("No file selected");
+      return;
+    }
     setFile(file);
+
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -145,6 +167,7 @@ export default function OrderPage() {
 
       setDataExcel(jsonData);
     };
+
     reader.readAsBinaryString(file);
   };
 

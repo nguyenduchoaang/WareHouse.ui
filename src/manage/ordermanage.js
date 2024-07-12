@@ -13,6 +13,7 @@ import Toastify from "../based/Toastify";
 import { useParams } from "react-router-dom";
 export default function OrderManager() {
   const { id } = useParams();
+  const { mode } = useParams();
   const [orders, setOrders] = useState([]);
   const [paging, setPaging] = useState(Common.PagingModel);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
@@ -20,12 +21,6 @@ export default function OrderManager() {
     isOpen: false,
     type: TOASTIFY.SUCCESS,
     message: "",
-  });
-  const [formGetOrder, setFormGetOrder] = useState({
-    id: "",
-    BatchMode: BATCH_MODE.TRUNKIN,
-    size: paging.size,
-    page: paging.page,
   });
 
   const [modelGetOrder, setModelGetOrder] = useState({
@@ -36,7 +31,6 @@ export default function OrderManager() {
   const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
-    // handleGetOrderByBatchMode();
     handleGetListOrderByBatch(id);
   }, [id]);
 
@@ -51,33 +45,6 @@ export default function OrderManager() {
       }, 500);
     }
   }, [toast]);
-
-  // const handleGetOrderByBatchMode = async () => {
-  //   showLoading();
-  //   const id = Common.GetInfo("id");
-  //   const formAPI = { ...formGetOrder, id: id };
-  //   const [err, data] = await OrderServices.GetOrdersByBatchMode(formAPI);
-  //   if (!err) {
-  //     const temp = [];
-  //     data.items.map((item) => {
-  //       temp.push([
-  //         item.id,
-  //         format(new Date(item.orderDate), "dd/MM/yyyy hh:mm"),
-  //         format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
-  //         item.price,
-  //         format(new Date(item.deliveryDate), "dd/MM/yyyy hh:mm"),
-  //         item.batchMode,
-  //         item.batchId,
-  //         item.img,
-  //       ]);
-  //     });
-  //     setOrders(temp);
-  //     hideLoading();
-  //   } else {
-  //     hideLoading();
-  //     console.log(err);
-  //   }
-  // };
 
   const handleGetListOrderByBatch = async (id) => {
     showLoading();
@@ -121,13 +88,13 @@ export default function OrderManager() {
     };
     const [err, data] = await OrderServices.UpdateBatchModeById(model);
     if (!err) {
-      setOrders([]);
-      hideLoading();
       setToast({
         isOpen: true,
         type: TOASTIFY.SUCCESS,
         message: "Share order success",
       });
+      setOrders([]);
+      hideLoading();
     } else {
       setToast({
         isOpen: true,
@@ -153,19 +120,21 @@ export default function OrderManager() {
             header={Common.HeaderOrderManager}
             body={orders && orders.length > 0 && orders}
           />
-          <div className="flex justify-end">
-            <Confirm
-              nameShow="Share Order"
-              header="Share Order"
-              content="Share this order to shipper?"
-              nameBtn="Share"
-              nameBtnCancel="Cancel"
-              handleSave={(value) => {
-                setIsOpenConfirm(false);
-                handleUpdateBatchMode();
-              }}
-            />
-          </div>
+          {mode === BATCH_MODE.TRUCKIN && (
+            <div className="flex justify-end">
+              <Confirm
+                nameShow="Share Order"
+                header="Share Order"
+                content="Share this order to shipper?"
+                nameBtn="Share"
+                nameBtnCancel="Cancel"
+                handleSave={(value) => {
+                  setIsOpenConfirm(false);
+                  handleUpdateBatchMode();
+                }}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </>

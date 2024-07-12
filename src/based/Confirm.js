@@ -15,7 +15,7 @@ export default function Confirm(props) {
 
   const handleSave = (id) => {
     props.handleSave(id);
-    setOpen(false); // Đóng Dialog khi nhấn nút submit
+    setOpen(false);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
