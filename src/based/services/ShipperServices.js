@@ -8,6 +8,11 @@ const ShipperServices = {
       `/${key}/GetOrderOfShipperByBatchMode/${model.id}?batchmode=${model.BatchMode}&page=${model.page}&size=${model.size}`
     );
   },
+  GetShippers: async (model) => {
+    return await BaseServices.Get(
+      `/${key}/GetShippers/${model.warehouseId}?page=${model.page}&size=${model.size}`
+    );
+  },
 };
 
 export default ShipperServices;

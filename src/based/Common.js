@@ -44,13 +44,14 @@ var Common = {
     size: 10,
   },
   HeaderOrderManager: [
-    "ID",
+    "STT",
     "Order Date",
     "Expected Date",
     "Price",
     "Delivery Date",
-    "Batch Mode",
-    "Shipper Id",
+    "Address",
+    "Customer Name",
+    "Phone Number",
     "Image",
   ],
   HeaderShipManager: [

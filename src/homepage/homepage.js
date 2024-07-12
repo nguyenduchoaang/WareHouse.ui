@@ -246,7 +246,7 @@ export default function HomePage() {
     let role = Common.CheckRole();
     switch (role) {
       case ROLE.WAREHOUSE:
-        navigate("/manage");
+        navigate("/batch-manager");
         break;
       case ROLE.SHIPPER:
         navigate("/ship");

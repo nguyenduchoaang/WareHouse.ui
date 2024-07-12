@@ -6,8 +6,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "../components/ui/table";
-import PaginationBase from "./pagination";
+} from "../../components/ui/table";
+// import PaginationBase from "./pagination";
 
 export function TableHeaderCustom(props) {
   return (
@@ -22,5 +22,21 @@ export function TableHeaderCustom(props) {
         )}
       </TableRow>
     </TableHeader>
+  );
+}
+
+export function TableBodyCustom(props) {
+  return (
+    <TableBody>
+      {props.body &&
+        props.body.length > 0 &&
+        props.body.map((item, rowIndex) => (
+          <TableRow key={rowIndex}>
+            {item.map((cell, cellIndex) => (
+              <TableCell key={cellIndex}>{cell}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+    </TableBody>
   );
 }

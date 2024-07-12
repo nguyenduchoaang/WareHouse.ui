@@ -32,7 +32,7 @@ const AppRoutes = [
     element: Analysis,
   },
   {
-    path: "/manage",
+    path: "/order-manager/:id",
     element: OrderManager,
   },
   {

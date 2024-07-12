@@ -9,6 +9,9 @@ const AccountServices = {
   Logout: async (model) => {
     return await BaseServices.Delete(`/${key}/LogOut`, model);
   },
+  RegisterAccount: async (model) => {
+    return await BaseServices.Post(`/${key}/RegisterAccount`, model);
+  },
 };
 
 export default AccountServices;

@@ -41,7 +41,9 @@ const TableCustom = (props) => {
             currentItems.map((item, rowIndex) => (
               <TableRow key={rowIndex}>
                 {item.map((cell, cellIndex) => (
-                  <TableCell key={cellIndex}>{cell}</TableCell>
+                  <>
+                    <TableCell key={cellIndex}>{cell}</TableCell>
+                  </>
                 ))}
               </TableRow>
             ))}

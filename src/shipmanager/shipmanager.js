@@ -18,12 +18,14 @@ import { useLoading } from "../based/context/LoadingContext";
 import Toastify from "../based/Toastify";
 const ShipManager = () => {
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
+  const { showLoading, hideLoading } = useLoading();
   const [toast, setToast] = useState({
     isOpen: false,
     type: CONSTANTS.SUCCESS,
     message: "",
   });
   const [paging, setPaging] = useState(Common.PagingModel);
+  // const [pagingShipper, setPagingShipper] = useState(Common.PagingModel);
   const [orders, setOrders] = useState([]);
   const [formUpdate, setFormUpdate] = useState({
     image: null,
@@ -36,10 +38,15 @@ const ShipManager = () => {
     size: paging.size,
     page: paging.page,
   });
-  const { showLoading, hideLoading } = useLoading();
+  // const [formGetShipper, setFormGetShipper] = useState({
+  //   warehouseId: Common.GetInfo("id"),
+  //   size: pagingShipper.size,
+  //   page: pagingShipper.page,
+  // });
 
   useEffect(() => {
     handleGetOrderByBatchMode();
+    // handleGetListShipper(formGetShipper);
   }, []);
 
   useEffect(() => {
@@ -117,6 +124,15 @@ const ShipManager = () => {
       });
     }
   };
+
+  // const handleGetListShipper = async (model) => {
+  //   const [err, data] = await ShipperServices.GetShippers(model);
+  //   if (!err) {
+  //     console.log(data);
+  //   } else {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <>

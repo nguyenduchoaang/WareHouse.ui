@@ -10,7 +10,9 @@ import Confirm from "../based/Confirm";
 import { useLoading } from "../based/context/LoadingContext";
 import { TOASTIFY } from "../based/Constants";
 import Toastify from "../based/Toastify";
+import { useParams } from "react-router-dom";
 export default function OrderManager() {
+  const { id } = useParams();
   const [orders, setOrders] = useState([]);
   const [paging, setPaging] = useState(Common.PagingModel);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
@@ -25,11 +27,18 @@ export default function OrderManager() {
     size: paging.size,
     page: paging.page,
   });
+
+  const [modelGetOrder, setModelGetOrder] = useState({
+    id: id,
+    size: paging.size,
+    page: paging.page,
+  });
   const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
-    handleGetOrderByBatchMode();
-  }, []);
+    // handleGetOrderByBatchMode();
+    handleGetListOrderByBatch(id);
+  }, [id]);
 
   useEffect(() => {
     if (toast.isOpen) {
@@ -43,29 +52,58 @@ export default function OrderManager() {
     }
   }, [toast]);
 
-  const handleGetOrderByBatchMode = async () => {
+  // const handleGetOrderByBatchMode = async () => {
+  //   showLoading();
+  //   const id = Common.GetInfo("id");
+  //   const formAPI = { ...formGetOrder, id: id };
+  //   const [err, data] = await OrderServices.GetOrdersByBatchMode(formAPI);
+  //   if (!err) {
+  //     const temp = [];
+  //     data.items.map((item) => {
+  //       temp.push([
+  //         item.id,
+  //         format(new Date(item.orderDate), "dd/MM/yyyy hh:mm"),
+  //         format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
+  //         item.price,
+  //         format(new Date(item.deliveryDate), "dd/MM/yyyy hh:mm"),
+  //         item.batchMode,
+  //         item.batchId,
+  //         item.img,
+  //       ]);
+  //     });
+  //     setOrders(temp);
+  //     hideLoading();
+  //   } else {
+  //     hideLoading();
+  //     console.log(err);
+  //   }
+  // };
+
+  const handleGetListOrderByBatch = async (id) => {
     showLoading();
-    const id = Common.GetInfo("id");
-    const formAPI = { ...formGetOrder, id: id };
-    const [err, data] = await OrderServices.GetOrdersByBatchMode(formAPI);
+    const model = { ...modelGetOrder, id: id };
+    const [err, data] = await OrderServices.GetListOrderDetailByBatch(model);
     if (!err) {
       const temp = [];
-      data.items.map((item) => {
+      data.items.map((item, index) => {
         temp.push([
-          item.id,
+          index + 1,
           format(new Date(item.orderDate), "dd/MM/yyyy hh:mm"),
           format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
           item.price,
           format(new Date(item.deliveryDate), "dd/MM/yyyy hh:mm"),
-          item.batchMode,
+          item.address,
+          item.cusName,
           item.batchId,
           item.img,
         ]);
       });
       setOrders(temp);
       hideLoading();
+      console.log(data);
     } else {
       hideLoading();
+
       console.log(err);
     }
   };
@@ -77,7 +115,7 @@ export default function OrderManager() {
     const [err, data] = await OrderServices.UpdateBatchModeById(id);
     if (!err) {
       setOrders([]);
-      handleGetOrderByBatchMode();
+      // handleGetOrderByBatchMode();
       hideLoading();
       setToast({
         isOpen: true,

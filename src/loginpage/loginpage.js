@@ -47,7 +47,7 @@ export default function LoginComponent() {
           break;
         case ROLE.WAREHOUSE:
           cookies.save("id", data.warehouseResponse.id);
-          navigate("/manage");
+          navigate("/batch-manager");
 
           break;
         case ROLE.SHIPPER:

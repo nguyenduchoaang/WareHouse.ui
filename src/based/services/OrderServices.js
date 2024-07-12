@@ -29,6 +29,16 @@ const OrderServices = {
   GetOrderSuccess: async (paging) => {
     return await BaseServices.Get(`/${key}/GetOrderSuccess`, paging);
   },
+  GetListBatchByWarehouse: async (model) => {
+    return await BaseServices.Get(
+      `/${key}/GetListBatchByWarehouse/${model.id}?batchmode=${model.batchmode}&page=${model.page}&size=${model.size}`
+    );
+  },
+  GetListOrderDetailByBatch: async (model) => {
+    return await BaseServices.Get(
+      `/${key}/GetListOrdersByBatch/${model.id}?page=${model.page}&size=${model.size}`
+    );
+  },
 };
 
 export default OrderServices;

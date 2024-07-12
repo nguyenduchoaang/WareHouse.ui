@@ -14,8 +14,8 @@ const ConfigNavbar = [
   },
   {
     id: 2,
-    link: "/manage",
-    name: "Order Management",
+    link: "/batch-manager",
+    name: "Batch Management",
     icon: <ShoppingCartIcon />,
     role: ROLE.WAREHOUSE,
   },
