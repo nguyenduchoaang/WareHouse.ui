@@ -57,8 +57,8 @@ export default function NavBarLeft() {
 
   return (
     <nav
-      style={{ width: "240px" }}
-      className="fixed  h-screen  top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90"
+      style={{ width: "240px", border: "solid 1px #e4e4e7" }}
+      className=" fixed  h-screen  top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90"
     >
       <div className="flex h-14 items-center justify-center border-b px-4 sm:justify-start sm:px-6">
         <Link

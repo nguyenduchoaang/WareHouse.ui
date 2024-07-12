@@ -14,38 +14,6 @@ export default function RegisterComponent() {
   const [role, setRole] = useState("shipper");
   const [location, setLocation] = useState("");
   const [dob, setDob] = useState("");
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (password!== confirmPassword) {
-  //     toast({
-  //       variant: "destructive",
-  //       title: "Mật khẩu không khớp",
-  //     });
-  //     return;
-  //   }
-  //   try {
-  //     const response = await CreateMember(memberName, password, name, yob, role, location, dob);
-  //     if (response.status === 200) {
-  //       toast({
-  //         title: "Đăng ký thành công vui lòng đăng nhập",
-  //       });
-  //       navigate("/login");
-  //     }
-  //   } catch (error) {
-  //     if (error.response.status === 500) {
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Tài khoản này đã được đăng ký",
-  //       });
-  //     } else
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Thất bại",
-  //         description: error.response.data,
-  //       });
-  //   }
-  // };
   const formData = {
     memberName,
     password,
@@ -54,19 +22,24 @@ export default function RegisterComponent() {
     location,
     dob,
   };
+  const [modelRegister, setModelRegister] = useState({
+    email: "string",
+    password: "string",
+    confirmPassword: "string",
+    roleName: "string",
+    fullName: "string",
+    dateOfBirth: "2024-07-12T17:57:46.349Z",
+    gender: true,
+    phone: "string",
+    warehouseId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    location: "string",
+  });
 
-  console.log(formData);
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br">
+    <div className="flex justify-center min-h-screen bg-gradient-to-br">
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Register Account</h1>
-          <p
-            className="text-muted-foreground font-semibold"
-            style={{ color: "#1A2130" }}
-          >
-            Fill info of user account to register
-          </p>
         </div>
         <Card>
           <form>
@@ -114,7 +87,7 @@ export default function RegisterComponent() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="full-name">Vai trò</Label>
+                  <Label htmlFor="full-name">Role</Label>
                   <select
                     onChange={(e) => setRole(e.target.value)}
                     value={role}
@@ -123,6 +96,47 @@ export default function RegisterComponent() {
                     <option value="warehouse">Ware House</option>
                     <option value="shipper">Shipper</option>
                   </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="full-name">Gender</Label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Label className="flex items-center space-x-2">
+                      <Input
+                        style={{ width: "20px" }}
+                        type="radio"
+                        name="gender"
+                        value="Nam"
+                        className="form-radio"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <span>Man</span>
+                    </Label>
+                    <Label className="flex items-center space-x-2">
+                      <Input
+                        style={{ width: "20px" }}
+                        type="radio"
+                        name="gender"
+                        value="Nam"
+                        className="form-radio"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <span>Women</span>
+                    </Label>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="full-name">Phone Number</Label>
+
+                  <Input
+                    type="number"
+                    id="full-name"
+                    placeholder="ex: 0123"
+                    value={name}
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="space-y-2">

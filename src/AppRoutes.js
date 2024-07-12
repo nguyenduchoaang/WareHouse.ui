@@ -21,7 +21,6 @@ const AppRoutes = [
   {
     path: "/register",
     element: RegisterComponent,
-    layout: "Empty",
   },
   {
     path: "/order",

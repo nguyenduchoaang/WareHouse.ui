@@ -25,7 +25,6 @@ const ShipManager = () => {
     message: "",
   });
   const [paging, setPaging] = useState(Common.PagingModel);
-  // const [pagingShipper, setPagingShipper] = useState(Common.PagingModel);
   const [orders, setOrders] = useState([]);
   const [formUpdate, setFormUpdate] = useState({
     image: null,
@@ -38,15 +37,9 @@ const ShipManager = () => {
     size: paging.size,
     page: paging.page,
   });
-  // const [formGetShipper, setFormGetShipper] = useState({
-  //   warehouseId: Common.GetInfo("id"),
-  //   size: pagingShipper.size,
-  //   page: pagingShipper.page,
-  // });
 
   useEffect(() => {
     handleGetOrderByBatchMode();
-    // handleGetListShipper(formGetShipper);
   }, []);
 
   useEffect(() => {
