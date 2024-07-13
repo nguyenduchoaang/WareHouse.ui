@@ -3,6 +3,7 @@ import Common from "../based/Common";
 import {
   TableHeaderCustom,
   TableBodyCustom,
+  TableCustom,
 } from "../based/table/TableComponent";
 import { Table } from "../components/ui/table";
 import {
@@ -14,6 +15,7 @@ import {
   BreadcrumbPage,
 } from "../components/ui/breadcrumb";
 import WareHouseServices from "../based/services/WareHouseServices";
+import { format } from "date-fns";
 
 export default function UserAccount() {
   const [listWareHouse, setListWareHouse] = useState([]);
@@ -30,13 +32,14 @@ export default function UserAccount() {
       const temp = [];
       data.items.forEach((item, index) => {
         const genderUser = item.gender === true ? "Male" : "Female";
+        const dob = format(item.dateOfBirth, "dd/MM/yyyy");
         temp.push([
           index + 1,
           item.fullName,
           item.phone,
           item.location,
           genderUser,
-          item.dateOfBirth,
+          dob,
         ]);
       });
       setListWareHouse(temp);
@@ -63,10 +66,8 @@ export default function UserAccount() {
           </BreadcrumbList>
         </Breadcrumb>
       </header>
-      <Table>
-        <TableHeaderCustom header={Common.HeaderAccount}></TableHeaderCustom>
-        <TableBodyCustom body={listWareHouse}></TableBodyCustom>
-      </Table>
+
+      <TableCustom header={Common.HeaderAccount} body={listWareHouse} />
     </div>
   );
 }
