@@ -206,7 +206,7 @@ export default function RegisterComponent() {
                         style={{ width: "20px" }}
                         type="radio"
                         name="gender"
-                        value="Man"
+                        value="Male"
                         className="form-radio"
                         onChange={(e) =>
                           setModelRegister({
@@ -215,14 +215,14 @@ export default function RegisterComponent() {
                           })
                         }
                       />
-                      <span>Man</span>
+                      <span>Male</span>
                     </Label>
                     <Label className="flex items-center space-x-2">
                       <Input
                         style={{ width: "20px" }}
                         type="radio"
                         name="gender"
-                        value="Woman"
+                        value="Female"
                         className="form-radio"
                         onChange={(e) =>
                           setModelRegister({
@@ -231,7 +231,7 @@ export default function RegisterComponent() {
                           })
                         }
                       />
-                      <span>Women</span>
+                      <span>Female</span>
                     </Label>
                   </div>
                 </div>

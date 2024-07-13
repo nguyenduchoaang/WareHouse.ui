@@ -69,7 +69,7 @@ const ShipManager = () => {
           format(new Date(item.expectedDateOfDelivery), "dd/MM/yyyy"),
           item.price,
           item.img,
-          item.batchId,
+          item.batchOrderId,
         ]);
       });
       setOrders(temp);

@@ -62,6 +62,8 @@ var Common = {
     "Image",
     "Action",
   ],
+
+  HeaderAccount: ["STT", "Full Name", "Phone", "Location", "Gender", "DOB"],
   excelSerialDateToJSDate(serial) {
     var excelEpoch = new Date(1900, 0, 1);
     var jsDate = new Date(
