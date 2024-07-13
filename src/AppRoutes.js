@@ -8,7 +8,8 @@ import OrderManager from "./manage/ordermanage";
 import ShipManager from "./shipmanager/shipmanager";
 import BatchManager from "./manage/batchmanage";
 import UserAccount from "./user/useraccount";
-
+import AnalysisWarehouse from "./manage/analysis";
+import AnalysisShipper from "./shipmanager/analysis";
 const AppRoutes = [
   {
     path: "/",
@@ -46,6 +47,14 @@ const AppRoutes = [
   {
     path: "/user-account",
     element: UserAccount,
+  },
+  {
+    path: "/analysis-warehouse",
+    element: AnalysisWarehouse,
+  },
+  {
+    path: "/analysis-ship",
+    element: AnalysisShipper,
   },
 ];
 

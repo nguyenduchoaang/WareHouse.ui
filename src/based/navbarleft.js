@@ -47,6 +47,13 @@ const ConfigNavbar = [
     icon: <LineChartIcon />,
     role: ROLE.WAREHOUSE,
   },
+  {
+    id: 7,
+    link: "/analysis-ship",
+    name: "Analysis",
+    icon: <LineChartIcon />,
+    role: ROLE.SHIPPER,
+  },
 ];
 
 export default function NavBarLeft() {
