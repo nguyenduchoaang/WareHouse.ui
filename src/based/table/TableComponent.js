@@ -47,7 +47,7 @@ export function TableBodyCustom(props) {
 
 export function TableCustom(props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
