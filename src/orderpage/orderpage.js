@@ -37,7 +37,7 @@ import { useLoading } from "../based/context/LoadingContext";
 import Toastify from "../based/Toastify";
 import CONSTANTS, { TOASTIFY } from "../based/Constants";
 import { set } from "date-fns";
-const Selection = (props) => {
+export const Selection = (props) => {
   return (
     <Select onValueChange={(value) => props.onChanged(value)}>
       <SelectTrigger className="w-[240px]">
@@ -131,22 +131,6 @@ export default function OrderPage() {
     }
   };
 
-  // const handleFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-
-  //   reader.onload = (e) => {
-  //     const binaryStr = e.target.result;
-  //     const workbook = XLSX.read(binaryStr, { type: "binary" });
-
-  //     const sheetName = workbook.SheetNames[0];
-  //     const sheet = workbook.Sheets[sheetName];
-  //     const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-  //     setDataExcel(jsonData);
-  //   };
-  //   reader.readAsBinaryString(file);
-  // };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) {

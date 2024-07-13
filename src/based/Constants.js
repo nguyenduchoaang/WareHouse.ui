@@ -3,6 +3,7 @@ var CONSTANTS = {
   WAREHOUSE: "warehouses",
   AUTHENTICATIONS: "authentications",
   SHIPPER: "shippers",
+  ACCOUNTS: "accounts",
 };
 var BATCH_MODE = {
   SUCCESS: "SUCCESS",
