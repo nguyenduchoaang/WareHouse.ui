@@ -74,13 +74,19 @@ export default function RegisterComponent() {
   const handleRegister = async () => {
     const [err, data] = await AccountServices.RegisterAccount(modelRegister);
     if (!err) {
-      console.log(data);
       setToast({
         isOpen: true,
         type: "success",
         message: "Register success",
       });
-      window.location.reload();
+      setModelRegister({
+        email: "",
+        password: "",
+        confirmPassword: "",
+        roleName: "",
+        fullName: "",
+        dateOfBirth: "2024-07-12T17:57:46.349Z",
+      });
     } else {
       setToast({
         isOpen: true,

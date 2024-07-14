@@ -9,6 +9,7 @@ import {
 import { useLoading } from "../based/context/LoadingContext";
 import OrderServices from "../based/services/OrderServices";
 import WareHouseServices from "../based/services/WareHouseServices";
+import ShipperServices from "../based/services/ShipperServices";
 import { BarChart } from "../based/Chart";
 import Common from "../based/Common";
 import { BATCH_MODE, ROLE } from "../based/Constants";
@@ -27,25 +28,25 @@ const OrderHeader = [
   {
     id: 1,
     name: "Order Success",
-    icon: <PackageIcon />,
+    icon: <CircleCheckIcon />,
     value: "0",
   },
   {
     id: 2,
     name: "Order Delivering",
-    icon: <CircleCheckIcon />,
+    icon: <TruckIcon />,
     value: "0",
   },
   {
     id: 3,
     name: "Order Failed",
-    icon: <TruckIcon />,
+    icon: <FailedIcon />,
     value: "0",
   },
 ];
 
 export const _renderHeader = (props) => {
-  const { totalOrder, orderSuccess, orderImported } = props;
+  const { totalOrder, orderSuccess, orderImport } = props;
   const [dataHeader, setDataHeader] = useState(OrderHeader);
   useEffect(() => {
     dataHeader.map((item) =>
@@ -53,7 +54,7 @@ export const _renderHeader = (props) => {
         ? (item.value = totalOrder)
         : item.id === 2
         ? (item.value = orderSuccess)
-        : (item.value = orderImported)
+        : (item.value = orderImport)
     );
   }, [props]);
   return (
@@ -95,31 +96,43 @@ export default function Analysis() {
       let id = Common.GetInfo("id");
       let model = {
         id: id,
-        page: 1,
-        batchmode: BATCH_MODE.TRUCKIN,
-        size: 10,
+        BatchMode: BATCH_MODE.DELIVERING,
+        size: 1,
+        page: 10,
       };
       let model2 = {
         id: id,
         page: 1,
-        batchmode: BATCH_MODE.IMPORTED,
+        BatchMode: BATCH_MODE.SUCCESS,
         size: 10,
       };
-      const [err, data] = await OrderServices.GetListBatchByWarehouse(model);
+      let model3 = {
+        id: id,
+        page: 1,
+        BatchMode: BATCH_MODE.FAILED,
+        size: 10,
+      };
+      const [err, data] = await ShipperServices.GetOrderOfShipperByBatchMode(
+        model2
+      );
       if (!err) {
         totalOrderAPI.totalOrder = data.total;
       } else {
         console.log("err", err);
       }
-      const [err1, data1] = await OrderServices.GetListBatchByWarehouse(model2);
+      const [err1, data1] = await ShipperServices.GetOrderOfShipperByBatchMode(
+        model
+      );
       if (!err1) {
         totalOrderAPI.orderSuccess = data1.total;
       } else {
         console.log("err", err1);
       }
-      const [err2, data2] = await OrderServices.GetOrderImported();
+      const [err2, data2] = await ShipperServices.GetOrderOfShipperByBatchMode(
+        model3
+      );
       if (!err2) {
-        totalOrderAPI.orderImported = data2.total;
+        totalOrderAPI.orderImport = data2.total;
       } else {
         console.log("err", err2);
       }
@@ -128,8 +141,12 @@ export default function Analysis() {
         datasets: [
           {
             label: "Analysis Orders",
-            labels: ["Batch Truckin", "Batch Imported"],
-            data: [totalOrderAPI.totalOrder, totalOrderAPI.orderSuccess],
+            labels: ["Order Success", "Order Delivering", "Order Failed"],
+            data: [
+              totalOrderAPI.totalOrder,
+              totalOrderAPI.orderSuccess,
+              totalOrderAPI.orderImport,
+            ],
           },
         ],
       });
@@ -378,6 +395,38 @@ function TruckIcon(props) {
       <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
       <circle cx="17" cy="18" r="2" />
       <circle cx="7" cy="18" r="2" />
+    </svg>
+  );
+}
+
+function FailedIcon() {
+  return (
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 14 14"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#000000"
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <g fillRule="evenodd">
+          {" "}
+          <path d="M0 7a7 7 0 1 1 14 0A7 7 0 0 1 0 7z"></path>{" "}
+          <path
+            d="M13 7A6 6 0 1 0 1 7a6 6 0 0 0 12 0z"
+            fill="#FFF"
+            style={{ fill: "var(--svg-status-bg, #fff)" }}
+          ></path>{" "}
+          <path d="M7 5.969L5.599 4.568a.29.29 0 0 0-.413.004l-.614.614a.294.294 0 0 0-.004.413L5.968 7l-1.4 1.401a.29.29 0 0 0 .004.413l.614.614c.113.114.3.117.413.004L7 8.032l1.401 1.4a.29.29 0 0 0 .413-.004l.614-.614a.294.294 0 0 0 .004-.413L8.032 7l1.4-1.401a.29.29 0 0 0-.004-.413l-.614-.614a.294.294 0 0 0-.413-.004L7 5.968z"></path>{" "}
+        </g>{" "}
+      </g>
     </svg>
   );
 }
