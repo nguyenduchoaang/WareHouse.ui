@@ -12,6 +12,12 @@ const WareHouseServices = {
       `/${CONSTANTS.WAREHOUSE}/GetShippersInWarehouseId/${model.id}?page=${model.page}&size=${model.size}`
     );
   },
+
+  GetOrderSuccessByWareHouse: async (model) => {
+    return await BaseServices.Get(
+      `/${CONSTANTS.WAREHOUSE}/GetorderSuccessByWarehouseId/${model.id}?page=${model.page}&size=${model.size}`
+    );
+  },
 };
 
 export default WareHouseServices;

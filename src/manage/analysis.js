@@ -12,7 +12,8 @@ import WareHouseServices from "../based/services/WareHouseServices";
 import { BarChart } from "../based/Chart";
 import Common from "../based/Common";
 import { BATCH_MODE, ROLE } from "../based/Constants";
-
+import { TableCustom } from "../based/table/TableComponent";
+import { format } from "date-fns";
 const config = {
   datasets: [
     {
@@ -77,10 +78,10 @@ export default function Analysis() {
     orderSuccess: 0,
   });
   const navigate = useNavigate();
-
+  const [paging, setPaging] = useState({ page: 1, size: 10 });
   const [barChart, setBarChart] = useState(config);
   const { showLoading, hideLoading } = useLoading();
-
+  const [listData, setListData] = useState([]);
   useEffect(() => {
     showLoading();
     const totalOrderAPI = { ...totalOrder };
@@ -129,37 +130,98 @@ export default function Analysis() {
       hideLoading();
     };
     fetchData();
+    handleGetOrderSuccess();
   }, []);
+
+  const handleGetOrderSuccess = async () => {
+    let id = Common.GetInfo("id");
+    let model = {
+      id: id,
+      page: paging.page,
+      size: paging.size,
+    };
+    const [err, data] = await WareHouseServices.GetOrderSuccessByWareHouse(
+      model
+    );
+    if (!err) {
+      let temp = [];
+      data.items.map((item, index) => {
+        const orderDateFormat = format(item.orderDate, "dd/MM/yyyy");
+        const deliveryDateFormat = format(item.deliveryDate, "dd/MM/yyyy");
+        const expectedDateOfDeliveryFormat = format(
+          item.expectedDateOfDelivery,
+          "dd/MM/yyyy"
+        );
+        // i want add "$" in the end of price
+        const price = item.price + " VNĐ";
+        temp.push([
+          index + 1,
+          orderDateFormat,
+          expectedDateOfDeliveryFormat,
+          price,
+          deliveryDateFormat,
+          item.cusName,
+          item.address,
+          item.phoneNumber,
+          item.img_Shipper,
+          item.status,
+          item.shipperId,
+          item.batchId,
+        ]);
+        setListData(temp);
+      });
+      console.log("data", data);
+    } else {
+      console.log("err", err);
+    }
+  };
+
+  const headerTable = [
+    "Id",
+    "Order Date",
+    "Expected Date",
+    "Price",
+    "DeliveryDate",
+    "CusName",
+    "Address",
+    "Phone",
+    "Image",
+    "Status",
+    "ShipperId",
+    "BatchId",
+  ];
 
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <h3 style={{ fontSize: "20px" }} className="font-bold">
-          Thống kê lượng đơn hàng kho
+          Thống kê lượng đơn hàng trong kho
         </h3>
-        <main className="flex-1 grid gap-8 p-4 md:p-6">
+
+        <main className="flex grid gap-8 p-4 md:p-6">
           {_renderHeader(totalOrder)}
-          {/* {_renderRecentOrders()} */}
-          <h3 style={{ fontSize: "20px" }} className="font-bold">
-            Biểu đồ theo dõi
-          </h3>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-            className=" flex items-center justify-between"
-          >
-            <div
-              style={{ width: "40%", display: "flex" }}
-              className="bar-chart"
-            >
-              {" "}
-              <BarChart data={barChart} />
-            </div>
-          </div>
         </main>
+        <h3 style={{ fontSize: "20px" }} className="font-bold">
+          Thống kê lượng lượng đơn hàng giao thành công
+        </h3>
+        <TableCustom header={headerTable} body={listData} />
+
+        <h3 style={{ fontSize: "20px" }} className="font-bold">
+          Biểu đồ theo dõi
+        </h3>
+        <div
+          style={{
+            width: "80%",
+            display: "flex",
+            alignItems: "center",
+          }}
+          className=" flex items-center justify-between"
+        >
+          <div style={{ width: "40%", display: "flex" }} className="bar-chart">
+            {" "}
+            <BarChart data={barChart} />
+          </div>
+        </div>
       </div>
     </>
   );

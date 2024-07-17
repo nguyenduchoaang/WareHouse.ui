@@ -28,6 +28,7 @@ export function TableHeaderCustom(props) {
 }
 
 export function TableBodyCustom(props) {
+  console.log(props);
   return (
     <>
       <TableBody>

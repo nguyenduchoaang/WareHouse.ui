@@ -11,6 +11,7 @@ import OrderServices from "../based/services/OrderServices";
 import { BarChart } from "../based/Chart";
 import Common from "../based/Common";
 import { ROLE } from "../based/Constants";
+import { TableCustom } from "../based/table/TableComponent";
 
 const config = {
   datasets: [
@@ -141,35 +142,39 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  const headerTable = ["STT", "Mã đơn hàng", "Người tạo", "Ngày tạo"];
+  const body = [
+    [1, "DH001", "Nguyễn Văn A", "2021-09-01"],
+    [2, "DH002", "Nguyễn Văn B", "2021-09-02"],
+  ];
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <h3 style={{ fontSize: "20px" }} className="font-bold">
           Thống kê lượng đơn hàng hệ thống
         </h3>
-        <main className="flex-1 grid gap-8 p-4 md:p-6">
+        <main className=" grid gap-8 p-4 md:p-6">
           {_renderHeader(totalOrder)}
           {/* {_renderRecentOrders()} */}
-          <h3 style={{ fontSize: "20px" }} className="font-bold">
-            Biểu đồ theo dõi
-          </h3>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-            className=" flex items-center justify-between"
-          >
-            <div
-              style={{ width: "40%", display: "flex" }}
-              className="bar-chart"
-            >
-              {" "}
-              <BarChart data={barChart} />
-            </div>
-          </div>
+          <TableCustom header={headerTable} body={body} />
         </main>
+        <h3 style={{ fontSize: "20px" }} className="font-bold">
+          Biểu đồ theo dõi
+        </h3>
+        <div
+          style={{
+            width: "80%",
+            display: "flex",
+            // alignItems: "center",
+          }}
+          className=" flex items-center justify-between"
+        >
+          <div style={{ width: "40%", display: "flex" }} className="bar-chart">
+            {" "}
+            <BarChart data={barChart} />
+          </div>
+        </div>
       </div>
     </>
   );
